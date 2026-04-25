@@ -35,6 +35,23 @@
       </div>
     </div>
   <% } %>
+
+  <% if (typeof videos !== 'undefined' && videos.length > 0) { %>
+    <div class="video-gallery">
+      <h3>Videos</h3>
+      <% videos.forEach(vid => { %>
+        <div class="video-item">
+          <video controls preload="metadata" playsinline>
+            <source src="/uploads/<%= vid.filename %>" type="video/mp4">
+            Your browser does not support video playback.
+          </video>
+          <% if (vid.caption) { %>
+            <p class="gallery-caption"><%= vid.caption %></p>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
 </article>
 
 <section class="comments-section">

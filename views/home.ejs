@@ -109,4 +109,21 @@
 </section>
 <% } %>
 
+<section class="section subscribe-section">
+  <h2>Stay Updated</h2>
+  <p class="section-intro">Get an email whenever Hannah posts a new update.</p>
+  <form class="subscribe-form" action="/subscribe" method="POST">
+    <div class="form-row">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Your Name" required>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Your Email" required>
+      </div>
+      <button type="submit" class="btn">Subscribe</button>
+    </div>
+  </form>
+  <p class="form-note">You'll receive a confirmation email. Unsubscribe anytime.</p>
+</section>
+
 <%- include('layouts/footer') %>

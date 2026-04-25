@@ -5,16 +5,19 @@ const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
 const { db, UPLOADS_DIR } = require('./db');
+const { notifySubscribers } = require('./email');
 
-// Multer setup for photo uploads
+// Multer setup for photo + video uploads
 const upload = multer({
   dest: path.join(UPLOADS_DIR, 'tmp'),
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB for videos
   fileFilter: (req, file, cb) => {
-    const allowed = /jpeg|jpg|png|gif|webp/;
-    const ext = allowed.test(path.extname(file.originalname).toLowerCase());
-    const mime = allowed.test(file.mimetype);
-    cb(null, ext && mime);
+    const imageTypes = /jpeg|jpg|png|gif|webp/;
+    const videoTypes = /mp4|mov|quicktime|webm/;
+    const ext = path.extname(file.originalname).toLowerCase();
+    const isImage = imageTypes.test(ext) || imageTypes.test(file.mimetype);
+    const isVideo = videoTypes.test(ext) || videoTypes.test(file.mimetype);
+    cb(null, isImage || isVideo);
   }
 });
 
@@ -66,10 +69,12 @@ router.get('/', requireAuth, (req, res) => {
   const settings = {};
   db.prepare('SELECT key, value FROM settings').all().forEach(s => { settings[s.key] = s.value; });
 
+  const subscriberCount = db.prepare('SELECT COUNT(*) as count FROM subscribers WHERE confirmed = 1').get().count;
+
   const recentPosts = db.prepare('SELECT * FROM posts ORDER BY created_at DESC LIMIT 5').all();
 
   res.render('admin/dashboard', {
-    postCount, commentCount, prayerCount, stats, settings, recentPosts, page: 'admin'
+    postCount, commentCount, prayerCount, subscriberCount, stats, settings, recentPosts, page: 'admin'
   });
 });
 
@@ -84,22 +89,28 @@ router.get('/posts/:id/edit', requireAuth, (req, res) => {
   if (!post) return res.status(404).send('Post not found');
 
   const images = db.prepare('SELECT * FROM post_images WHERE post_id = ? ORDER BY sort_order').all(post.id);
-  res.render('admin/post-edit', { post, images, page: 'admin' });
+  const videos = db.prepare('SELECT * FROM post_videos WHERE post_id = ? ORDER BY sort_order').all(post.id);
+  res.render('admin/post-edit', { post, images, videos, page: 'admin' });
 });
 
 // Create/Update post
-router.post('/posts/save', requireAuth, upload.array('photos', 20), async (req, res) => {
+const postUpload = upload.fields([
+  { name: 'photos', maxCount: 20 },
+  { name: 'videos', maxCount: 5 }
+]);
+
+router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
   const { id, title, content, excerpt, category, published } = req.body;
   const slug = createSlug(title);
+  const isNew = !id;
+  const wasPublished = id ? db.prepare('SELECT published FROM posts WHERE id = ?').get(id) : null;
 
   if (id) {
-    // Update
     db.prepare(`
       UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, category = ?,
         published = ?, updated_at = datetime('now') WHERE id = ?
     `).run(title, slug, content, excerpt || '', category, published ? 1 : 0, id);
   } else {
-    // Create
     const result = db.prepare(`
       INSERT INTO posts (title, slug, content, excerpt, category, published, author_id)
       VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -111,21 +122,20 @@ router.post('/posts/save', requireAuth, upload.array('photos', 20), async (req, 
   const postId = id || req.body.id;
 
   // Process uploaded images
-  if (req.files && req.files.length > 0) {
+  const photos = (req.files && req.files.photos) || [];
+  if (photos.length > 0) {
     const maxOrder = db.prepare('SELECT MAX(sort_order) as mx FROM post_images WHERE post_id = ?').get(postId);
     let order = (maxOrder && maxOrder.mx) ? maxOrder.mx + 1 : 0;
 
-    for (const file of req.files) {
+    for (const file of photos) {
       const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
       const outputPath = path.join(UPLOADS_DIR, filename);
 
-      // Compress and convert to webp
       await sharp(file.path)
         .resize(1200, 1200, { fit: 'inside', withoutEnlargement: true })
         .webp({ quality: 80 })
         .toFile(outputPath);
 
-      // Clean up temp file
       fs.unlinkSync(file.path);
 
       db.prepare(
@@ -133,7 +143,6 @@ router.post('/posts/save', requireAuth, upload.array('photos', 20), async (req, 
       ).run(postId, filename, order++);
     }
 
-    // Set first image as featured if none set
     const post = db.prepare('SELECT featured_image FROM posts WHERE id = ?').get(postId);
     if (!post.featured_image) {
       const firstImg = db.prepare('SELECT filename FROM post_images WHERE post_id = ? ORDER BY sort_order LIMIT 1').get(postId);
@@ -143,15 +152,45 @@ router.post('/posts/save', requireAuth, upload.array('photos', 20), async (req, 
     }
   }
 
+  // Process uploaded videos
+  const videoFiles = (req.files && req.files.videos) || [];
+  if (videoFiles.length > 0) {
+    const maxOrder = db.prepare('SELECT MAX(sort_order) as mx FROM post_videos WHERE post_id = ?').get(postId);
+    let order = (maxOrder && maxOrder.mx) ? maxOrder.mx + 1 : 0;
+
+    for (const file of videoFiles) {
+      const ext = path.extname(file.originalname).toLowerCase().replace('.', '');
+      const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext === 'mov' || ext === 'quicktime' ? 'mov' : 'mp4'}`;
+      const outputPath = path.join(UPLOADS_DIR, filename);
+
+      fs.renameSync(file.path, outputPath);
+
+      db.prepare(
+        'INSERT INTO post_videos (post_id, filename, sort_order) VALUES (?, ?, ?)'
+      ).run(postId, filename, order++);
+    }
+  }
+
+  // Notify subscribers when a post is first published
+  const shouldNotify = published && (isNew || (wasPublished && !wasPublished.published));
+  if (shouldNotify) {
+    const post = db.prepare('SELECT * FROM posts WHERE id = ?').get(postId);
+    notifySubscribers(post).catch(err => console.error('Email notification error:', err));
+  }
+
   res.redirect('/admin');
 });
 
 // Delete post
 router.post('/posts/:id/delete', requireAuth, (req, res) => {
-  // Delete associated image files
   const images = db.prepare('SELECT filename FROM post_images WHERE post_id = ?').all(req.params.id);
   for (const img of images) {
     const filepath = path.join(UPLOADS_DIR, img.filename);
+    if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+  }
+  const videos = db.prepare('SELECT filename FROM post_videos WHERE post_id = ?').all(req.params.id);
+  for (const vid of videos) {
+    const filepath = path.join(UPLOADS_DIR, vid.filename);
     if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
   }
 
@@ -166,6 +205,17 @@ router.post('/images/:id/delete', requireAuth, (req, res) => {
     const filepath = path.join(UPLOADS_DIR, image.filename);
     if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
     db.prepare('DELETE FROM post_images WHERE id = ?').run(req.params.id);
+  }
+  res.redirect('back');
+});
+
+// Delete video
+router.post('/videos/:id/delete', requireAuth, (req, res) => {
+  const video = db.prepare('SELECT * FROM post_videos WHERE id = ?').get(req.params.id);
+  if (video) {
+    const filepath = path.join(UPLOADS_DIR, video.filename);
+    if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+    db.prepare('DELETE FROM post_videos WHERE id = ?').run(req.params.id);
   }
   res.redirect('back');
 });

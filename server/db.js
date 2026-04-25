@@ -81,6 +81,24 @@ function initialize() {
       key TEXT PRIMARY KEY,
       value TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS subscribers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      token TEXT UNIQUE NOT NULL,
+      confirmed INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS post_videos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
+      filename TEXT NOT NULL,
+      caption TEXT,
+      sort_order INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
   `);
 
   // Seed default stats

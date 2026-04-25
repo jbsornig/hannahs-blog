@@ -1,6 +1,8 @@
 const express = require('express');
+const crypto = require('crypto');
 const router = express.Router();
 const { db } = require('./db');
+const { sendConfirmation } = require('./email');
 
 // Home page
 router.get('/', (req, res) => {
@@ -72,7 +74,11 @@ router.get('/post/:slug', (req, res) => {
     'SELECT * FROM comments WHERE post_id = ? AND approved = 1 ORDER BY created_at ASC'
   ).all(post.id);
 
-  res.render('post-single', { post, images, comments, page: 'posts' });
+  const videos = db.prepare(
+    'SELECT * FROM post_videos WHERE post_id = ? ORDER BY sort_order'
+  ).all(post.id);
+
+  res.render('post-single', { post, images, videos, comments, page: 'posts' });
 });
 
 // Submit comment
@@ -113,6 +119,52 @@ router.post('/prayers', (req, res) => {
   ).run(author_name.trim(), content.trim());
 
   res.redirect('/prayers?submitted=1');
+});
+
+// Subscribe
+router.post('/subscribe', async (req, res) => {
+  const { name, email } = req.body;
+  if (!name || !email) {
+    return res.redirect('/?subscribe=error');
+  }
+
+  const existing = db.prepare('SELECT * FROM subscribers WHERE email = ?').get(email.trim().toLowerCase());
+  if (existing) {
+    if (existing.confirmed) {
+      return res.redirect('/?subscribe=already');
+    }
+    // Resend confirmation
+    await sendConfirmation(existing);
+    return res.redirect('/?subscribe=pending');
+  }
+
+  const token = crypto.randomBytes(32).toString('hex');
+  db.prepare(
+    'INSERT INTO subscribers (name, email, token) VALUES (?, ?, ?)'
+  ).run(name.trim(), email.trim().toLowerCase(), token);
+
+  const subscriber = db.prepare('SELECT * FROM subscribers WHERE token = ?').get(token);
+  await sendConfirmation(subscriber);
+
+  res.redirect('/?subscribe=pending');
+});
+
+// Confirm subscription
+router.get('/subscribe/confirm/:token', (req, res) => {
+  const sub = db.prepare('SELECT * FROM subscribers WHERE token = ?').get(req.params.token);
+  if (!sub) return res.status(404).render('404', { page: '' });
+
+  db.prepare('UPDATE subscribers SET confirmed = 1 WHERE id = ?').run(sub.id);
+  res.render('subscribed', { name: sub.name, page: '' });
+});
+
+// Unsubscribe
+router.get('/unsubscribe/:token', (req, res) => {
+  const sub = db.prepare('SELECT * FROM subscribers WHERE token = ?').get(req.params.token);
+  if (!sub) return res.status(404).render('404', { page: '' });
+
+  db.prepare('DELETE FROM subscribers WHERE id = ?').run(sub.id);
+  res.render('unsubscribed', { page: '' });
 });
 
 // About page
