@@ -271,6 +271,20 @@ router.post('/prayers/:id/delete', requireAuth, (req, res) => {
   res.redirect('/admin/prayers');
 });
 
+// About page management
+router.get('/about', requireAuth, (req, res) => {
+  const aboutRow = db.prepare("SELECT value FROM settings WHERE key = 'about_content'").get();
+  const aboutContent = aboutRow ? aboutRow.value : '';
+  res.render('admin/about', { aboutContent, page: 'admin' });
+});
+
+router.post('/about', requireAuth, (req, res) => {
+  const { about_content } = req.body;
+  const upsert = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value');
+  upsert.run('about_content', about_content || '');
+  res.redirect('/admin');
+});
+
 // Stats management
 router.post('/stats', requireAuth, (req, res) => {
   const { homes_completed, groups_hosted, families_served } = req.body;

@@ -173,7 +173,9 @@ router.get('/about', (req, res) => {
   db.prepare('SELECT key, value FROM stats').all().forEach(s => {
     stats[s.key] = s.value;
   });
-  res.render('about', { stats, page: 'about' });
+  const aboutRow = db.prepare("SELECT value FROM settings WHERE key = 'about_content'").get();
+  const aboutContent = aboutRow ? aboutRow.value : '';
+  res.render('about', { stats, aboutContent, page: 'about' });
 });
 
 module.exports = router;
