@@ -1,0 +1,48 @@
+<%- include('../layouts/header') %>
+
+<section class="section">
+  <div class="admin-header">
+    <h1>Subscribers</h1>
+    <a href="/admin" class="btn btn-outline">Back to Dashboard</a>
+  </div>
+
+  <% if (subscribers.length === 0) { %>
+    <p class="empty-state">No subscribers yet.</p>
+  <% } else { %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Subscribed</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% subscribers.forEach(sub => { %>
+          <tr>
+            <td><%= sub.name %></td>
+            <td><%= sub.email %></td>
+            <td>
+              <% if (sub.confirmed) { %>
+                <span class="badge badge-active">Confirmed</span>
+              <% } else { %>
+                <span class="badge badge-pending">Pending</span>
+              <% } %>
+            </td>
+            <td><%= new Date(sub.created_at).toLocaleDateString() %></td>
+            <td>
+              <form action="/admin/subscribers/<%= sub.id %>/delete" method="POST" style="display:inline"
+                onsubmit="return confirm('Remove this subscriber?')">
+                <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</section>
+
+<%- include('../layouts/footer') %>

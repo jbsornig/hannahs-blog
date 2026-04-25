@@ -220,6 +220,17 @@ router.post('/videos/:id/delete', requireAuth, (req, res) => {
   res.redirect('back');
 });
 
+// Subscribers management
+router.get('/subscribers', requireAuth, (req, res) => {
+  const subscribers = db.prepare('SELECT * FROM subscribers ORDER BY created_at DESC').all();
+  res.render('admin/subscribers', { subscribers, page: 'admin' });
+});
+
+router.post('/subscribers/:id/delete', requireAuth, (req, res) => {
+  db.prepare('DELETE FROM subscribers WHERE id = ?').run(req.params.id);
+  res.redirect('/admin/subscribers');
+});
+
 // Comments management
 router.get('/comments', requireAuth, (req, res) => {
   const comments = db.prepare(`
