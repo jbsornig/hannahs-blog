@@ -1,0 +1,41 @@
+<%- include('../layouts/header') %>
+
+<section class="section">
+  <div class="admin-header">
+    <h1>Manage Comments</h1>
+    <a href="/admin" class="btn btn-outline">Back to Dashboard</a>
+  </div>
+
+  <% if (comments.length === 0) { %>
+    <p class="empty-state">No comments yet.</p>
+  <% } else { %>
+    <div class="comments-admin-list">
+      <% comments.forEach(comment => { %>
+        <div class="comment-admin-card <%= comment.approved ? '' : 'comment-pending' %>">
+          <div class="comment-admin-header">
+            <strong><%= comment.author_name %></strong>
+            <span>on "<%= comment.post_title %>"</span>
+            <time><%= new Date(comment.created_at).toLocaleDateString() %></time>
+            <% if (!comment.approved) { %>
+              <span class="badge badge-pending">Pending</span>
+            <% } %>
+          </div>
+          <p><%= comment.content %></p>
+          <div class="comment-admin-actions">
+            <% if (!comment.approved) { %>
+              <form action="/admin/comments/<%= comment.id %>/approve" method="POST" style="display:inline">
+                <button type="submit" class="btn btn-sm">Approve</button>
+              </form>
+            <% } %>
+            <form action="/admin/comments/<%= comment.id %>/delete" method="POST" style="display:inline"
+              onsubmit="return confirm('Delete this comment?')">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('../layouts/footer') %>

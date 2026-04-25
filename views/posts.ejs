@@ -1,0 +1,42 @@
+<%- include('layouts/header') %>
+
+<section class="section">
+  <h1>Posts</h1>
+
+  <div class="category-filter">
+    <a href="/posts" class="btn btn-sm <%= category === 'all' ? 'btn-active' : 'btn-outline' %>">All</a>
+    <a href="/posts?category=update" class="btn btn-sm <%= category === 'update' ? 'btn-active' : 'btn-outline' %>">Updates</a>
+    <a href="/posts?category=build-report" class="btn btn-sm <%= category === 'build-report' ? 'btn-active' : 'btn-outline' %>">Build Reports</a>
+    <a href="/posts?category=prayer" class="btn btn-sm <%= category === 'prayer' ? 'btn-active' : 'btn-outline' %>">Prayer</a>
+    <a href="/posts?category=photos" class="btn btn-sm <%= category === 'photos' ? 'btn-active' : 'btn-outline' %>">Photos</a>
+  </div>
+
+  <% if (posts.length === 0) { %>
+    <p class="empty-state">No posts in this category yet.</p>
+  <% } %>
+
+  <div class="post-grid">
+    <% posts.forEach(post => { %>
+      <article class="post-card">
+        <% if (post.featured_image) { %>
+          <div class="post-card-image">
+            <img src="/uploads/<%= post.featured_image %>" alt="<%= post.title %>" loading="lazy">
+          </div>
+        <% } %>
+        <div class="post-card-body">
+          <span class="post-category category-<%= post.category %>"><%= post.category %></span>
+          <h3><a href="/post/<%= post.slug %>"><%= post.title %></a></h3>
+          <p class="post-excerpt"><%= post.excerpt || post.content.substring(0, 150) + '...' %></p>
+          <div class="post-meta">
+            <time><%= new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %></time>
+            <% if (post.comment_count > 0) { %>
+              <span><%= post.comment_count %> comment<%= post.comment_count !== 1 ? 's' : '' %></span>
+            <% } %>
+          </div>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('layouts/footer') %>

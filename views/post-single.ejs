@@ -1,0 +1,77 @@
+<%- include('layouts/header') %>
+
+<article class="post-full">
+  <header class="post-header">
+    <span class="post-category category-<%= post.category %>"><%= post.category %></span>
+    <h1><%= post.title %></h1>
+    <div class="post-meta">
+      <span>By <%= post.author_name %></span>
+      <time><%= new Date(post.created_at).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) %></time>
+    </div>
+  </header>
+
+  <% if (post.featured_image) { %>
+    <div class="post-featured-image">
+      <img src="/uploads/<%= post.featured_image %>" alt="<%= post.title %>">
+    </div>
+  <% } %>
+
+  <div class="post-content">
+    <%= post.content %>
+  </div>
+
+  <% if (images.length > 0) { %>
+    <div class="photo-gallery">
+      <h3>Photos</h3>
+      <div class="gallery-grid">
+        <% images.forEach(img => { %>
+          <div class="gallery-item">
+            <img src="/uploads/<%= img.filename %>" alt="<%= img.caption || '' %>" loading="lazy" onclick="openLightbox(this.src)">
+            <% if (img.caption) { %>
+              <p class="gallery-caption"><%= img.caption %></p>
+            <% } %>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  <% } %>
+</article>
+
+<section class="comments-section">
+  <h3><%= comments.length %> Comment<%= comments.length !== 1 ? 's' : '' %></h3>
+
+  <% comments.forEach(comment => { %>
+    <div class="comment">
+      <div class="comment-header">
+        <strong><%= comment.author_name %></strong>
+        <time><%= new Date(comment.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
+      </div>
+      <p><%= comment.content %></p>
+    </div>
+  <% }) %>
+
+  <form class="comment-form" action="/post/<%= post.slug %>/comment" method="POST">
+    <h4>Leave a Comment</h4>
+    <div class="form-group">
+      <label for="author_name">Your Name *</label>
+      <input type="text" id="author_name" name="author_name" required>
+    </div>
+    <div class="form-group">
+      <label for="author_email">Email (optional, not displayed)</label>
+      <input type="email" id="author_email" name="author_email">
+    </div>
+    <div class="form-group">
+      <label for="content">Comment *</label>
+      <textarea id="content" name="content" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn">Post Comment</button>
+    <p class="form-note">Comments are moderated and will appear after approval.</p>
+  </form>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<%- include('layouts/footer') %>

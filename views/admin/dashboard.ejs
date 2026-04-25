@@ -1,0 +1,90 @@
+<%- include('../layouts/header') %>
+
+<section class="section admin-dashboard">
+  <div class="admin-header">
+    <h1>Dashboard</h1>
+    <div class="admin-actions">
+      <a href="/admin/posts/new" class="btn">New Post</a>
+      <a href="/admin/logout" class="btn btn-outline">Logout</a>
+    </div>
+  </div>
+
+  <div class="admin-stats">
+    <div class="admin-stat-card">
+      <h3><%= postCount %></h3>
+      <p>Total Posts</p>
+    </div>
+    <div class="admin-stat-card alert-card">
+      <h3><%= commentCount %></h3>
+      <p>Pending Comments</p>
+      <% if (commentCount > 0) { %><a href="/admin/comments">Review</a><% } %>
+    </div>
+    <div class="admin-stat-card">
+      <h3><%= prayerCount %></h3>
+      <p>Active Prayers</p>
+      <a href="/admin/prayers">Manage</a>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <h2>Mission Progress</h2>
+    <form action="/admin/stats" method="POST" class="stats-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Homes Completed</label>
+          <input type="number" name="homes_completed" value="<%= stats.homes_completed || 0 %>" min="0">
+        </div>
+        <div class="form-group">
+          <label>Groups Hosted</label>
+          <input type="number" name="groups_hosted" value="<%= stats.groups_hosted || 0 %>" min="0">
+        </div>
+        <div class="form-group">
+          <label>Families Served</label>
+          <input type="number" name="families_served" value="<%= stats.families_served || 0 %>" min="0">
+        </div>
+      </div>
+      <button type="submit" class="btn">Update Stats</button>
+    </form>
+  </div>
+
+  <div class="admin-section">
+    <h2>Recent Posts</h2>
+    <% if (recentPosts.length === 0) { %>
+      <p class="empty-state">No posts yet. <a href="/admin/posts/new">Create your first post!</a></p>
+    <% } else { %>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% recentPosts.forEach(post => { %>
+            <tr>
+              <td><%= post.title %></td>
+              <td><span class="post-category category-<%= post.category %>"><%= post.category %></span></td>
+              <td><%= post.published ? 'Published' : 'Draft' %></td>
+              <td><%= new Date(post.created_at).toLocaleDateString() %></td>
+              <td class="action-cell">
+                <a href="/admin/posts/<%= post.id %>/edit" class="btn btn-sm">Edit</a>
+                <% if (post.published) { %>
+                  <a href="/post/<%= post.slug %>" class="btn btn-sm btn-outline" target="_blank">View</a>
+                <% } %>
+                <form action="/admin/posts/<%= post.id %>/delete" method="POST" style="display:inline"
+                  onsubmit="return confirm('Delete this post?')">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../layouts/footer') %>

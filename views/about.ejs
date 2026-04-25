@@ -1,0 +1,39 @@
+<%- include('layouts/header') %>
+
+<section class="section about-page">
+  <h1>About This Mission</h1>
+
+  <div class="about-content">
+    <p>Hannah is spending 3 months in Guatemala on a mission trip, supervising and assisting in the building of homes for local families.</p>
+
+    <p>Each week, a different church group comes in to build a home for a local family. Hannah makes sure the homes are built correctly and on time, helping coordinate between the groups and the families they serve.</p>
+
+    <h2>The Mission</h2>
+    <p>This mission is about more than building walls and roofs. It's about building relationships, sharing love, and making a lasting difference in the lives of Guatemalan families who need a safe place to call home.</p>
+
+    <h2>How You Can Help</h2>
+    <ul>
+      <li>Pray for the mission, the teams, and the families</li>
+      <li>Submit a <a href="/prayers">prayer request</a></li>
+      <li>Follow along and leave encouraging <a href="/posts">comments</a></li>
+      <li>Share this blog with others</li>
+    </ul>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-number"><%= stats.homes_completed || 0 %></span>
+        <span class="stat-label">Homes Built</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number"><%= stats.groups_hosted || 0 %></span>
+        <span class="stat-label">Groups Hosted</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number"><%= stats.families_served || 0 %></span>
+        <span class="stat-label">Families Served</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('layouts/footer') %>

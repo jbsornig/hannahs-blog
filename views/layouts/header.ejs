@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hannah's Blog - Guatemala Mission</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="nav-brand">Hannah's Blog</a>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="/" class="<%= page === 'home' ? 'active' : '' %>">Home</a>
+        <a href="/posts" class="<%= page === 'posts' ? 'active' : '' %>">Posts</a>
+        <a href="/prayers" class="<%= page === 'prayers' ? 'active' : '' %>">Prayer Requests</a>
+        <a href="/about" class="<%= page === 'about' ? 'active' : '' %>">About</a>
+        <% if (session && session.userId) { %>
+          <a href="/admin" class="nav-admin">Admin</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+  <main class="container">

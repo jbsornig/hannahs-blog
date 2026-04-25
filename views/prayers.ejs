@@ -1,0 +1,46 @@
+<%- include('layouts/header') %>
+
+<section class="section">
+  <h1>Prayer Requests</h1>
+  <p class="section-intro">Share your prayer requests or pray for others involved in this mission.</p>
+
+  <form class="prayer-form" action="/prayers" method="POST">
+    <h3>Submit a Prayer Request</h3>
+    <div class="form-group">
+      <label for="author_name">Your Name *</label>
+      <input type="text" id="author_name" name="author_name" required>
+    </div>
+    <div class="form-group">
+      <label for="content">Prayer Request *</label>
+      <textarea id="content" name="content" rows="4" required placeholder="Share what's on your heart..."></textarea>
+    </div>
+    <button type="submit" class="btn">Submit Prayer Request</button>
+  </form>
+
+  <% if (prayers.length > 0) { %>
+    <div class="prayer-list">
+      <% prayers.forEach(prayer => { %>
+        <div class="prayer-card <%= prayer.status === 'answered' ? 'prayer-answered' : '' %>">
+          <% if (prayer.status === 'answered') { %>
+            <span class="prayer-badge">Answered!</span>
+          <% } %>
+          <p class="prayer-content">"<%= prayer.content %>"</p>
+          <div class="prayer-footer">
+            <span class="prayer-author">- <%= prayer.author_name %></span>
+            <time><%= new Date(prayer.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></time>
+          </div>
+          <% if (prayer.response) { %>
+            <div class="prayer-response">
+              <strong>Hannah's Response:</strong>
+              <p><%= prayer.response %></p>
+            </div>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p class="empty-state">No prayer requests yet. Be the first to share!</p>
+  <% } %>
+</section>
+
+<%- include('layouts/footer') %>

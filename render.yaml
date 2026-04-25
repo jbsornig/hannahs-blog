@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: hannahs-blog
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    plan: free
+    disk:
+      name: blog-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /data
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"

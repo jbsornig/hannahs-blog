@@ -1,0 +1,46 @@
+<%- include('../layouts/header') %>
+
+<section class="section">
+  <div class="admin-header">
+    <h1>Manage Prayer Requests</h1>
+    <a href="/admin" class="btn btn-outline">Back to Dashboard</a>
+  </div>
+
+  <% if (prayers.length === 0) { %>
+    <p class="empty-state">No prayer requests yet.</p>
+  <% } else { %>
+    <div class="prayers-admin-list">
+      <% prayers.forEach(prayer => { %>
+        <div class="prayer-admin-card">
+          <div class="prayer-admin-header">
+            <strong><%= prayer.author_name %></strong>
+            <time><%= new Date(prayer.created_at).toLocaleDateString() %></time>
+            <span class="badge badge-<%= prayer.status %>"><%= prayer.status %></span>
+          </div>
+          <p>"<%= prayer.content %>"</p>
+
+          <form action="/admin/prayers/<%= prayer.id %>/respond" method="POST" class="prayer-respond-form">
+            <div class="form-group">
+              <label>Your Response</label>
+              <textarea name="response" rows="2" placeholder="Write a response..."><%= prayer.response || '' %></textarea>
+            </div>
+            <div class="form-row">
+              <select name="status">
+                <option value="active" <%= prayer.status === 'active' ? 'selected' : '' %>>Active</option>
+                <option value="answered" <%= prayer.status === 'answered' ? 'selected' : '' %>>Answered</option>
+                <option value="archived" <%= prayer.status === 'archived' ? 'selected' : '' %>>Archived</option>
+              </select>
+              <button type="submit" class="btn btn-sm">Save</button>
+            </div>
+          </form>
+          <form action="/admin/prayers/<%= prayer.id %>/delete" method="POST" style="display:inline"
+            onsubmit="return confirm('Delete this prayer request?')">
+            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('../layouts/footer') %>
