@@ -23,7 +23,10 @@ router.get('/', (req, res) => {
     SELECT * FROM prayer_requests WHERE status = 'active' ORDER BY created_at DESC LIMIT 3
   `).all();
 
-  res.render('home', { posts, stats, recentPrayers, page: 'home' });
+  const settings = {};
+  db.prepare('SELECT key, value FROM settings').all().forEach(s => { settings[s.key] = s.value; });
+
+  res.render('home', { posts, stats, settings, recentPrayers, page: 'home' });
 });
 
 // All posts (with optional category filter)

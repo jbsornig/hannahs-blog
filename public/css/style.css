@@ -201,9 +201,8 @@ img { max-width: 100%; height: auto; display: block; }
   border-radius: var(--radius);
   overflow: hidden;
   margin-bottom: 1.5rem;
-  max-height: 500px;
 }
-.post-featured-image img { width: 100%; object-fit: cover; }
+.post-featured-image img { width: 100%; }
 .post-content { font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem; white-space: pre-wrap; }
 
 /* === Photo Gallery === */

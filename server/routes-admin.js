@@ -63,10 +63,13 @@ router.get('/', requireAuth, (req, res) => {
   const stats = {};
   db.prepare('SELECT key, value FROM stats').all().forEach(s => { stats[s.key] = s.value; });
 
+  const settings = {};
+  db.prepare('SELECT key, value FROM settings').all().forEach(s => { settings[s.key] = s.value; });
+
   const recentPosts = db.prepare('SELECT * FROM posts ORDER BY created_at DESC LIMIT 5').all();
 
   res.render('admin/dashboard', {
-    postCount, commentCount, prayerCount, stats, recentPosts, page: 'admin'
+    postCount, commentCount, prayerCount, stats, settings, recentPosts, page: 'admin'
   });
 });
 
@@ -214,6 +217,15 @@ router.post('/stats', requireAuth, (req, res) => {
   update.run(parseInt(homes_completed) || 0, 'homes_completed');
   update.run(parseInt(groups_hosted) || 0, 'groups_hosted');
   update.run(parseInt(families_served) || 0, 'families_served');
+  res.redirect('/admin');
+});
+
+// Trip dates
+router.post('/trip-dates', requireAuth, (req, res) => {
+  const { trip_start, trip_end } = req.body;
+  const upsert = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value');
+  upsert.run('trip_start', trip_start || '');
+  upsert.run('trip_end', trip_end || '');
   res.redirect('/admin');
 });
 

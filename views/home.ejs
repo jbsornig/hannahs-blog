@@ -6,6 +6,12 @@
 </section>
 
 <section class="stats-bar">
+  <% if (settings.trip_start) { %>
+    <div class="stat-item">
+      <span class="stat-number" id="days-gone"></span>
+      <span class="stat-label">Days in Guatemala</span>
+    </div>
+  <% } %>
   <div class="stat-item">
     <span class="stat-number"><%= stats.homes_completed || 0 %></span>
     <span class="stat-label">Homes Built</span>
@@ -18,7 +24,46 @@
     <span class="stat-number"><%= stats.families_served || 0 %></span>
     <span class="stat-label">Families Served</span>
   </div>
+  <% if (settings.trip_end) { %>
+    <div class="stat-item">
+      <span class="stat-number" id="days-left"></span>
+      <span class="stat-label" id="days-left-label">Days Until Home</span>
+    </div>
+  <% } %>
 </section>
+
+<% if (settings.trip_start || settings.trip_end) { %>
+<script>
+  (function() {
+    const now = new Date();
+    now.setHours(0,0,0,0);
+
+    <% if (settings.trip_start) { %>
+    const start = new Date('<%= settings.trip_start %>');
+    start.setHours(0,0,0,0);
+    const gone = Math.max(0, Math.ceil((now - start) / 86400000));
+    const el = document.getElementById('days-gone');
+    if (el) el.textContent = gone;
+    <% } %>
+
+    <% if (settings.trip_end) { %>
+    const end = new Date('<%= settings.trip_end %>');
+    end.setHours(0,0,0,0);
+    const left = Math.ceil((end - now) / 86400000);
+    const leftEl = document.getElementById('days-left');
+    const labelEl = document.getElementById('days-left-label');
+    if (leftEl) {
+      if (left > 0) {
+        leftEl.textContent = left;
+      } else {
+        leftEl.textContent = '0';
+        if (labelEl) labelEl.textContent = "She's Home!";
+      }
+    }
+    <% } %>
+  })();
+</script>
+<% } %>
 
 <section class="section">
   <h2>Latest Updates</h2>

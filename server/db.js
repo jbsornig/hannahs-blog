@@ -76,6 +76,11 @@ function initialize() {
       key TEXT UNIQUE NOT NULL,
       value INTEGER DEFAULT 0
     );
+
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    );
   `);
 
   // Seed default stats
@@ -83,6 +88,11 @@ function initialize() {
   insertStat.run('homes_completed', 0);
   insertStat.run('groups_hosted', 0);
   insertStat.run('families_served', 0);
+
+  // Seed default settings
+  const insertSetting = db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)');
+  insertSetting.run('trip_start', '');
+  insertSetting.run('trip_end', '');
 }
 
 initialize();
