@@ -101,16 +101,20 @@ const postUpload = upload.fields([
 
 router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
   const { id, title, content, excerpt, category, published } = req.body;
-  const slug = createSlug(title);
   const isNew = !id;
   const wasPublished = id ? db.prepare('SELECT published FROM posts WHERE id = ?').get(id) : null;
 
+  let slug;
   if (id) {
+    // Keep existing slug when editing (don't regenerate)
+    const existing = db.prepare('SELECT slug FROM posts WHERE id = ?').get(id);
+    slug = existing ? existing.slug : createSlug(title, id);
     db.prepare(`
       UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, category = ?,
         published = ?, updated_at = datetime('now') WHERE id = ?
     `).run(title, slug, content, excerpt || '', category, published ? 1 : 0, id);
   } else {
+    slug = createSlug(title);
     const result = db.prepare(`
       INSERT INTO posts (title, slug, content, excerpt, category, published, author_id)
       VALUES (?, ?, ?, ?, ?, ?, ?)
