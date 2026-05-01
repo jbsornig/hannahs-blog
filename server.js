@@ -41,6 +41,8 @@ app.use((req, res, next) => {
   res.locals.currentYear = new Date().getFullYear();
   const siteNameRow = db.prepare("SELECT value FROM settings WHERE key = 'site_name'").get();
   res.locals.siteName = (siteNameRow && siteNameRow.value) || "Hannah's Blog";
+  const footerRow = db.prepare("SELECT value FROM settings WHERE key = 'footer_text'").get();
+  res.locals.footerText = (footerRow && footerRow.value) || "Hannah's Guatemala Mission Blog";
   next();
 });
 
