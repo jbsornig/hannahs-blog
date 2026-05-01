@@ -104,7 +104,7 @@ img { max-width: 100%; height: auto; display: block; }
 .hero {
   text-align: center;
   padding: 3rem 0 2rem;
-  background: #fde047;
+  background: #fde047; /* default, overridden by inline style from admin */
   margin: 0 -1rem;
   padding-left: 1rem;
   padding-right: 1rem;
