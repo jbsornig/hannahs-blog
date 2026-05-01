@@ -100,6 +100,7 @@ const postUpload = upload.fields([
 ]);
 
 router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
+  try {
   const { id, title, content, excerpt, category, published } = req.body;
   const isNew = !id;
   const wasPublished = id ? db.prepare('SELECT published FROM posts WHERE id = ?').get(id) : null;
@@ -108,7 +109,7 @@ router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
   if (id) {
     // Keep existing slug when editing (don't regenerate)
     const existing = db.prepare('SELECT slug FROM posts WHERE id = ?').get(id);
-    slug = existing ? existing.slug : createSlug(title, id);
+    slug = existing ? existing.slug : createSlug(title);
     db.prepare(`
       UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, category = ?,
         published = ?, updated_at = datetime('now') WHERE id = ?
@@ -183,6 +184,10 @@ router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
   }
 
   res.redirect('/admin');
+  } catch (err) {
+    console.error('Error saving post:', err);
+    res.status(500).send('Error saving post: ' + err.message);
+  }
 });
 
 // Delete post
