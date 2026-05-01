@@ -279,8 +279,9 @@ router.get('/about', requireAuth, (req, res) => {
 });
 
 router.post('/about', requireAuth, (req, res) => {
-  const { hero_title, hero_subtitle, about_content } = req.body;
+  const { site_name, hero_title, hero_subtitle, about_content } = req.body;
   const upsert = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value');
+  upsert.run('site_name', site_name || '');
   upsert.run('hero_title', hero_title || '');
   upsert.run('hero_subtitle', hero_subtitle || '');
   upsert.run('about_content', about_content || '');

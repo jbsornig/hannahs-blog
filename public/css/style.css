@@ -43,7 +43,7 @@ img { max-width: 100%; height: auto; display: block; }
 /* === Navigation === */
 .navbar {
   background: #7c3aed;
-  border-bottom: 2px solid var(--accent);
+  border-bottom: none;
   padding: 0.75rem 0;
   position: sticky;
   top: 0;
@@ -104,7 +104,7 @@ img { max-width: 100%; height: auto; display: block; }
 .hero {
   text-align: center;
   padding: 3rem 0 2rem;
-  background: linear-gradient(135deg, #dbeafe, #fef3c7);
+  background: #fde047;
   margin: 0 -1rem;
   padding-left: 1rem;
   padding-right: 1rem;

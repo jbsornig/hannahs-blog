@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const { UPLOADS_DIR } = require('./server/db');
+const { db, UPLOADS_DIR } = require('./server/db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,10 +35,12 @@ app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 app.use('/js', express.static(path.join(__dirname, 'public', 'js')));
 app.use('/uploads', express.static(UPLOADS_DIR));
 
-// Make session available to views
+// Make session and site settings available to views
 app.use((req, res, next) => {
   res.locals.session = req.session;
   res.locals.currentYear = new Date().getFullYear();
+  const siteNameRow = db.prepare("SELECT value FROM settings WHERE key = 'site_name'").get();
+  res.locals.siteName = (siteNameRow && siteNameRow.value) || "Hannah's Blog";
   next();
 });
 

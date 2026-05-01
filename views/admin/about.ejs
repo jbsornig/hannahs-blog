@@ -8,6 +8,14 @@
 
   <form action="/admin/about" method="POST">
     <div class="admin-section">
+      <h2>Site Name</h2>
+      <div class="form-group">
+        <label for="site_name">Blog Name (shown in header and browser tab)</label>
+        <input type="text" id="site_name" name="site_name" value="<%= settings.site_name || '' %>" placeholder="Hannah's Blog">
+      </div>
+    </div>
+
+    <div class="admin-section">
       <h2>Homepage Header</h2>
       <div class="form-group">
         <label for="hero_title">Main Heading</label>
