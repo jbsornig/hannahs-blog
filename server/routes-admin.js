@@ -271,16 +271,18 @@ router.post('/prayers/:id/delete', requireAuth, (req, res) => {
   res.redirect('/admin/prayers');
 });
 
-// About page management
+// Site content management
 router.get('/about', requireAuth, (req, res) => {
-  const aboutRow = db.prepare("SELECT value FROM settings WHERE key = 'about_content'").get();
-  const aboutContent = aboutRow ? aboutRow.value : '';
-  res.render('admin/about', { aboutContent, page: 'admin' });
+  const settings = {};
+  db.prepare('SELECT key, value FROM settings').all().forEach(s => { settings[s.key] = s.value; });
+  res.render('admin/about', { settings, page: 'admin' });
 });
 
 router.post('/about', requireAuth, (req, res) => {
-  const { about_content } = req.body;
+  const { hero_title, hero_subtitle, about_content } = req.body;
   const upsert = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value');
+  upsert.run('hero_title', hero_title || '');
+  upsert.run('hero_subtitle', hero_subtitle || '');
   upsert.run('about_content', about_content || '');
   res.redirect('/admin');
 });

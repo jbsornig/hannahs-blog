@@ -111,6 +111,8 @@ function initialize() {
   const insertSetting = db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)');
   insertSetting.run('trip_start', '');
   insertSetting.run('trip_end', '');
+  insertSetting.run('hero_title', 'Building Hope in Guatemala');
+  insertSetting.run('hero_subtitle', "Follow Hannah's journey as she helps build homes and transform lives");
   insertSetting.run('about_content', `Hannah is spending 3 months in Guatemala on a mission trip, supervising and assisting in the building of homes for local families.
 
 Each week, a different church group comes in to build a home for a local family. Hannah makes sure the homes are built correctly and on time, helping coordinate between the groups and the families they serve.

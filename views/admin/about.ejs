@@ -2,19 +2,36 @@
 
 <section class="section">
   <div class="admin-header">
-    <h1>Edit About Page</h1>
+    <h1>Edit Site Content</h1>
     <a href="/admin" class="btn btn-outline">Back to Dashboard</a>
   </div>
 
   <form action="/admin/about" method="POST">
-    <div class="form-group">
-      <label for="about_content">About Page Content</label>
-      <textarea id="about_content" name="about_content" rows="15"><%= aboutContent %></textarea>
-      <p class="form-note">Write in plain text. Blank lines will create paragraph breaks.</p>
+    <div class="admin-section">
+      <h2>Homepage Header</h2>
+      <div class="form-group">
+        <label for="hero_title">Main Heading</label>
+        <input type="text" id="hero_title" name="hero_title" value="<%= settings.hero_title || '' %>" placeholder="Building Hope in Guatemala">
+      </div>
+      <div class="form-group">
+        <label for="hero_subtitle">Subtitle</label>
+        <input type="text" id="hero_subtitle" name="hero_subtitle" value="<%= settings.hero_subtitle || '' %>" placeholder="Follow Hannah's journey...">
+      </div>
     </div>
+
+    <div class="admin-section">
+      <h2>About Page</h2>
+      <div class="form-group">
+        <label for="about_content">About Page Content</label>
+        <textarea id="about_content" name="about_content" rows="15"><%= settings.about_content || '' %></textarea>
+        <p class="form-note">Write in plain text. Blank lines will create paragraph breaks.</p>
+      </div>
+    </div>
+
     <div class="form-actions">
-      <button type="submit" class="btn">Save</button>
-      <a href="/about" class="btn btn-outline" target="_blank">Preview Current Page</a>
+      <button type="submit" class="btn">Save All</button>
+      <a href="/" class="btn btn-outline" target="_blank">Preview Homepage</a>
+      <a href="/about" class="btn btn-outline" target="_blank">Preview About</a>
     </div>
   </form>
 </section>
