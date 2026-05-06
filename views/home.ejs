@@ -72,7 +72,7 @@
   <% } %>
   <div class="post-grid">
     <% posts.forEach(post => { %>
-      <article class="post-card">
+      <article class="post-card" onclick="window.location='/post/<%= post.slug %>'">
         <% if (post.featured_image) { %>
           <div class="post-card-image">
             <img src="/uploads/<%= post.featured_image %>" alt="<%= post.title %>" loading="lazy">
