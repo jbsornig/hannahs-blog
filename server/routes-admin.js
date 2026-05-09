@@ -138,13 +138,13 @@ router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
     let order = (maxOrder && maxOrder.mx) ? maxOrder.mx + 1 : 0;
 
     for (const file of photos) {
-      const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+      const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
       const outputPath = path.join(UPLOADS_DIR, filename);
 
       await sharp(file.path)
         .rotate()
         .resize(1200, 1200, { fit: 'inside', withoutEnlargement: true })
-        .webp({ quality: 80 })
+        .jpeg({ quality: 80 })
         .toFile(outputPath);
 
       fs.unlinkSync(file.path);
