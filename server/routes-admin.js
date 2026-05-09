@@ -7,16 +7,21 @@ const fs = require('fs');
 const { db, UPLOADS_DIR } = require('./db');
 const { notifySubscribers } = require('./email');
 
+// Ensure tmp upload directory exists
+const TMP_DIR = path.join(UPLOADS_DIR, 'tmp');
+if (!fs.existsSync(TMP_DIR)) fs.mkdirSync(TMP_DIR, { recursive: true });
+
 // Multer setup for photo + video uploads
 const upload = multer({
-  dest: path.join(UPLOADS_DIR, 'tmp'),
+  dest: TMP_DIR,
   limits: { fileSize: 50 * 1024 * 1024 }, // 50MB for videos
   fileFilter: (req, file, cb) => {
-    const imageTypes = /jpeg|jpg|png|gif|webp/;
+    const imageTypes = /jpeg|jpg|png|gif|webp|heic|heif/;
     const videoTypes = /mp4|mov|quicktime|webm/;
     const ext = path.extname(file.originalname).toLowerCase();
-    const isImage = imageTypes.test(ext) || imageTypes.test(file.mimetype);
-    const isVideo = videoTypes.test(ext) || videoTypes.test(file.mimetype);
+    const mimetype = file.mimetype.toLowerCase();
+    const isImage = imageTypes.test(ext) || imageTypes.test(mimetype) || mimetype === 'image/heic' || mimetype === 'image/heif';
+    const isVideo = videoTypes.test(ext) || videoTypes.test(mimetype);
     cb(null, isImage || isVideo);
   }
 });
@@ -333,5 +338,18 @@ function createSlug(title) {
   }
   return slug;
 }
+
+// Multer error handling
+router.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    console.error('Multer error:', err);
+    return res.status(400).send('Upload error: ' + err.message);
+  }
+  if (err) {
+    console.error('Upload middleware error:', err);
+    return res.status(500).send('Upload error: ' + err.message);
+  }
+  next();
+});
 
 module.exports = router;
