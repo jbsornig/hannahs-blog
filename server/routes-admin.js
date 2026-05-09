@@ -137,6 +137,7 @@ router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
       const outputPath = path.join(UPLOADS_DIR, filename);
 
       await sharp(file.path)
+        .rotate()
         .resize(1200, 1200, { fit: 'inside', withoutEnlargement: true })
         .webp({ quality: 80 })
         .toFile(outputPath);
