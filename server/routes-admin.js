@@ -155,7 +155,8 @@ router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
     }
 
     const post = db.prepare('SELECT featured_image FROM posts WHERE id = ?').get(postId);
-    if (!post.featured_image) {
+    const needsFeatured = !post.featured_image || !fs.existsSync(path.join(UPLOADS_DIR, post.featured_image));
+    if (needsFeatured) {
       const firstImg = db.prepare('SELECT filename FROM post_images WHERE post_id = ? ORDER BY sort_order LIMIT 1').get(postId);
       if (firstImg) {
         db.prepare('UPDATE posts SET featured_image = ? WHERE id = ?').run(firstImg.filename, postId);
@@ -220,6 +221,13 @@ router.post('/images/:id/delete', requireAuth, (req, res) => {
     const filepath = path.join(UPLOADS_DIR, image.filename);
     if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
     db.prepare('DELETE FROM post_images WHERE id = ?').run(req.params.id);
+
+    // Clear featured_image if it was this photo, then pick next available
+    const post = db.prepare('SELECT id, featured_image FROM posts WHERE id = ?').get(image.post_id);
+    if (post && post.featured_image === image.filename) {
+      const next = db.prepare('SELECT filename FROM post_images WHERE post_id = ? ORDER BY sort_order LIMIT 1').get(post.id);
+      db.prepare('UPDATE posts SET featured_image = ? WHERE id = ?').run(next ? next.filename : null, post.id);
+    }
   }
   res.redirect(req.get('Referrer') || '/admin');
 });
