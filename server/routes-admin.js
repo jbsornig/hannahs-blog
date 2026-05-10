@@ -221,7 +221,7 @@ router.post('/images/:id/delete', requireAuth, (req, res) => {
     if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
     db.prepare('DELETE FROM post_images WHERE id = ?').run(req.params.id);
   }
-  res.redirect('back');
+  res.redirect(req.get('Referrer') || '/admin');
 });
 
 // Delete video
@@ -232,7 +232,7 @@ router.post('/videos/:id/delete', requireAuth, (req, res) => {
     if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
     db.prepare('DELETE FROM post_videos WHERE id = ?').run(req.params.id);
   }
-  res.redirect('back');
+  res.redirect(req.get('Referrer') || '/admin');
 });
 
 // Subscribers management
