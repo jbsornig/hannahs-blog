@@ -32,7 +32,12 @@
               <% } %>
             </td>
             <td><%= new Date(sub.created_at).toLocaleDateString() %></td>
-            <td>
+            <td class="action-cell">
+              <% if (!sub.confirmed) { %>
+                <form action="/admin/subscribers/<%= sub.id %>/resend" method="POST" style="display:inline">
+                  <button type="submit" class="btn btn-sm">Resend</button>
+                </form>
+              <% } %>
               <form action="/admin/subscribers/<%= sub.id %>/delete" method="POST" style="display:inline"
                 onsubmit="return confirm('Remove this subscriber?')">
                 <button type="submit" class="btn btn-sm btn-danger">Remove</button>

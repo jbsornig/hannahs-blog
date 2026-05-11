@@ -114,7 +114,18 @@
 
 <section class="section subscribe-section">
   <h2>Stay Updated</h2>
-  <p class="section-intro">Get an email whenever Hannah posts a new update.</p>
+  <% if (subscribe === 'pending') { %>
+    <div class="alert alert-success">
+      <strong>Almost there!</strong> We sent a confirmation email to your inbox. Please click the link in that email to complete your subscription. <strong>Check your spam/junk folder</strong> if you don't see it within a few minutes.
+    </div>
+  <% } else if (subscribe === 'already') { %>
+    <div class="alert alert-info">You're already subscribed! You'll get an email whenever Hannah posts.</div>
+  <% } else if (subscribe === 'error') { %>
+    <div class="alert alert-error">Please enter both your name and email.</div>
+  <% } else { %>
+    <p class="section-intro">Get an email whenever Hannah posts a new update.</p>
+  <% } %>
+  <% if (subscribe !== 'pending') { %>
   <form class="subscribe-form" action="/subscribe" method="POST">
     <div class="form-row">
       <div class="form-group">
@@ -126,7 +137,8 @@
       <button type="submit" class="btn">Subscribe</button>
     </div>
   </form>
-  <p class="form-note">You'll receive a confirmation email. Unsubscribe anytime.</p>
+  <p class="form-note">You'll receive a confirmation email you need to click before getting updates. Unsubscribe anytime.</p>
+  <% } %>
 </section>
 
 <%- include('layouts/footer') %>

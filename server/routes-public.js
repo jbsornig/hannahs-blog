@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
   const settings = {};
   db.prepare('SELECT key, value FROM settings').all().forEach(s => { settings[s.key] = s.value; });
 
-  res.render('home', { posts, stats, settings, recentPrayers, page: 'home' });
+  res.render('home', { posts, stats, settings, recentPrayers, page: 'home', subscribe: req.query.subscribe || null });
 });
 
 // All posts (with optional category filter)

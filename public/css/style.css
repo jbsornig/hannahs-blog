@@ -358,8 +358,10 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-full { width: 100%; }
 
 /* === Alerts === */
-.alert { padding: 0.75rem 1rem; border-radius: var(--radius); margin-bottom: 1rem; }
+.alert { padding: 0.75rem 1rem; border-radius: var(--radius); margin-bottom: 1rem; line-height: 1.5; }
 .alert-error { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+.alert-success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.alert-info { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
 .badge { padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
 .badge-pending { background: #fef3c7; color: #92400e; }
 .badge-active { background: #dbeafe; color: #1d4ed8; }

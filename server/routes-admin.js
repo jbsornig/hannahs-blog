@@ -249,6 +249,15 @@ router.get('/subscribers', requireAuth, (req, res) => {
   res.render('admin/subscribers', { subscribers, page: 'admin' });
 });
 
+router.post('/subscribers/:id/resend', requireAuth, async (req, res) => {
+  const sub = db.prepare('SELECT * FROM subscribers WHERE id = ? AND confirmed = 0').get(req.params.id);
+  if (sub) {
+    const { sendConfirmation } = require('./email');
+    await sendConfirmation(sub);
+  }
+  res.redirect('/admin/subscribers');
+});
+
 router.post('/subscribers/:id/delete', requireAuth, (req, res) => {
   db.prepare('DELETE FROM subscribers WHERE id = ?').run(req.params.id);
   res.redirect('/admin/subscribers');
