@@ -22,8 +22,8 @@
 
   <div class="like-section">
     <button id="like-btn" class="like-btn <%= alreadyLiked ? 'liked' : '' %>" onclick="likePost()">
-      <span class="like-heart"><%= alreadyLiked ? '&#9829;' : '&#9825;' %></span>
-      <span id="like-count"><%= likeCount %></span>
+      <span class="like-heart"><%- alreadyLiked ? '&#9829;' : '&#9825;' %></span>
+      <span id="like-count"><%= likeCount > 0 ? likeCount : '' %></span>
     </button>
   </div>
 
@@ -106,8 +106,8 @@ function likePost() {
     .then(r => r.json())
     .then(data => {
       btn.classList.add('liked');
-      btn.querySelector('.like-heart').innerHTML = '&#9829;';
-      document.getElementById('like-count').textContent = data.count;
+      btn.querySelector('.like-heart').innerHTML = '♥';
+      document.getElementById('like-count').textContent = data.count > 0 ? data.count : '';
     });
 }
 </script>
