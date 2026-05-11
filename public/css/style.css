@@ -408,6 +408,26 @@ img { max-width: 100%; height: auto; display: block; }
 .about-content ul { margin-left: 1.5rem; margin-bottom: 1rem; }
 .about-content li { margin-bottom: 0.5rem; }
 
+/* === Like Button === */
+.like-section { margin: 1.5rem 0; }
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+  box-shadow: var(--shadow);
+}
+.like-btn:hover { border-color: #e91e63; }
+.like-btn.liked { border-color: #e91e63; background: #fce4ec; }
+.like-heart { font-size: 1.4rem; color: #e91e63; line-height: 1; }
+.like-btn.liked .like-heart { color: #e91e63; }
+
 /* === Video Gallery === */
 .video-gallery { margin: 2rem 0; }
 .video-item { margin-bottom: 1.5rem; }

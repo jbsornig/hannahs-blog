@@ -42,6 +42,14 @@ function initialize() {
       updated_at TEXT DEFAULT (datetime('now'))
     );
 
+    CREATE TABLE IF NOT EXISTS post_likes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
+      visitor_id TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      UNIQUE(post_id, visitor_id)
+    );
+
     CREATE TABLE IF NOT EXISTS post_images (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,

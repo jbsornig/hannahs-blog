@@ -8,7 +8,8 @@ const { sendConfirmation } = require('./email');
 router.get('/', (req, res) => {
   const posts = db.prepare(`
     SELECT p.*, u.display_name as author_name,
-      (SELECT COUNT(*) FROM comments WHERE post_id = p.id AND approved = 1) as comment_count
+      (SELECT COUNT(*) FROM comments WHERE post_id = p.id AND approved = 1) as comment_count,
+      (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) as like_count
     FROM posts p
     LEFT JOIN users u ON p.author_id = u.id
     WHERE p.published = 1
@@ -38,7 +39,8 @@ router.get('/posts', (req, res) => {
   if (category) {
     posts = db.prepare(`
       SELECT p.*, u.display_name as author_name,
-        (SELECT COUNT(*) FROM comments WHERE post_id = p.id AND approved = 1) as comment_count
+        (SELECT COUNT(*) FROM comments WHERE post_id = p.id AND approved = 1) as comment_count,
+        (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) as like_count
       FROM posts p LEFT JOIN users u ON p.author_id = u.id
       WHERE p.published = 1 AND p.category = ?
       ORDER BY p.created_at DESC
@@ -46,7 +48,8 @@ router.get('/posts', (req, res) => {
   } else {
     posts = db.prepare(`
       SELECT p.*, u.display_name as author_name,
-        (SELECT COUNT(*) FROM comments WHERE post_id = p.id AND approved = 1) as comment_count
+        (SELECT COUNT(*) FROM comments WHERE post_id = p.id AND approved = 1) as comment_count,
+        (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) as like_count
       FROM posts p LEFT JOIN users u ON p.author_id = u.id
       WHERE p.published = 1
       ORDER BY p.created_at DESC
@@ -78,7 +81,31 @@ router.get('/post/:slug', (req, res) => {
     'SELECT * FROM post_videos WHERE post_id = ? ORDER BY sort_order'
   ).all(post.id);
 
-  res.render('post-single', { post, images, videos, comments, page: 'posts' });
+  const likeCount = db.prepare('SELECT COUNT(*) as count FROM post_likes WHERE post_id = ?').get(post.id).count;
+  const visitorId = req.cookies.visitor_id || '';
+  const alreadyLiked = visitorId ? !!db.prepare('SELECT id FROM post_likes WHERE post_id = ? AND visitor_id = ?').get(post.id, visitorId) : false;
+
+  res.render('post-single', { post, images, videos, comments, likeCount, alreadyLiked, page: 'posts' });
+});
+
+// Like a post
+router.post('/post/:slug/like', (req, res) => {
+  const post = db.prepare('SELECT id FROM posts WHERE slug = ? AND published = 1').get(req.params.slug);
+  if (!post) return res.status(404).json({ error: 'Post not found' });
+
+  let visitorId = req.cookies.visitor_id;
+  if (!visitorId) {
+    visitorId = crypto.randomBytes(16).toString('hex');
+    res.cookie('visitor_id', visitorId, { maxAge: 365 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
+  }
+
+  const existing = db.prepare('SELECT id FROM post_likes WHERE post_id = ? AND visitor_id = ?').get(post.id, visitorId);
+  if (!existing) {
+    db.prepare('INSERT INTO post_likes (post_id, visitor_id) VALUES (?, ?)').run(post.id, visitorId);
+  }
+
+  const count = db.prepare('SELECT COUNT(*) as count FROM post_likes WHERE post_id = ?').get(post.id).count;
+  res.json({ liked: true, count });
 });
 
 // Submit comment

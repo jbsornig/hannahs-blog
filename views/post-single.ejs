@@ -20,6 +20,13 @@
     <%= post.content %>
   </div>
 
+  <div class="like-section">
+    <button id="like-btn" class="like-btn <%= alreadyLiked ? 'liked' : '' %>" onclick="likePost()">
+      <span class="like-heart"><%= alreadyLiked ? '&#9829;' : '&#9825;' %></span>
+      <span id="like-count"><%= likeCount %></span>
+    </button>
+  </div>
+
   <% if (images.length > 0) { %>
     <div class="photo-gallery">
       <h3>Photos</h3>
@@ -90,5 +97,19 @@
 <div id="lightbox" class="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" src="" alt="">
 </div>
+
+<script>
+function likePost() {
+  const btn = document.getElementById('like-btn');
+  if (btn.classList.contains('liked')) return;
+  fetch('/post/<%= post.slug %>/like', { method: 'POST' })
+    .then(r => r.json())
+    .then(data => {
+      btn.classList.add('liked');
+      btn.querySelector('.like-heart').innerHTML = '&#9829;';
+      document.getElementById('like-count').textContent = data.count;
+    });
+}
+</script>
 
 <%- include('layouts/footer') %>
