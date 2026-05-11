@@ -27,6 +27,9 @@
                 <button type="submit" class="btn btn-sm">Approve</button>
               </form>
             <% } %>
+            <form action="/admin/comments/<%= comment.id %>/love" method="POST" style="display:inline">
+              <button type="submit" class="btn btn-sm <%= comment.loved ? 'btn-loved' : '' %>"><%- comment.loved ? '&#9829; Loved' : '&#9825; Love' %></button>
+            </form>
             <form action="/admin/comments/<%= comment.id %>/delete" method="POST" style="display:inline"
               onsubmit="return confirm('Delete this comment?')">
               <button type="submit" class="btn btn-sm btn-danger">Delete</button>

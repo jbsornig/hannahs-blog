@@ -82,12 +82,22 @@
   <h3><%= comments.length %> Comment<%= comments.length !== 1 ? 's' : '' %></h3>
 
   <% comments.forEach(comment => { %>
-    <div class="comment">
+    <div class="comment <%= comment.loved ? 'comment-loved' : '' %>">
       <div class="comment-header">
         <strong><%= comment.author_name %></strong>
         <time><%= new Date(comment.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
+        <% if (comment.loved) { %>
+          <span class="loved-badge"><%- '&#9829;' %> by Hannah</span>
+        <% } %>
       </div>
       <p><%= comment.content %></p>
+      <% if (session && session.userId) { %>
+        <form action="/admin/comments/<%= comment.id %>/love" method="POST" class="love-form">
+          <button type="submit" class="love-btn <%= comment.loved ? 'loved' : '' %>">
+            <%- comment.loved ? '&#9829; Unlove' : '&#9825; Love' %>
+          </button>
+        </form>
+      <% } %>
     </div>
   <% }) %>
 

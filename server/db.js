@@ -68,6 +68,7 @@ function initialize() {
       author_email TEXT,
       content TEXT NOT NULL,
       approved INTEGER DEFAULT 0,
+      loved INTEGER DEFAULT 0,
       created_at TEXT DEFAULT (datetime('now'))
     );
 
@@ -145,6 +146,11 @@ try {
   db.prepare("SELECT reaction FROM post_likes LIMIT 0").run();
 } catch {
   try { db.exec("ALTER TABLE post_likes ADD COLUMN reaction TEXT DEFAULT 'heart'"); } catch {}
+}
+try {
+  db.prepare("SELECT loved FROM comments LIMIT 0").run();
+} catch {
+  try { db.exec("ALTER TABLE comments ADD COLUMN loved INTEGER DEFAULT 0"); } catch {}
 }
 
 module.exports = { db, DATA_DIR, UPLOADS_DIR };

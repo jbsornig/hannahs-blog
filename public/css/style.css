@@ -249,6 +249,21 @@ img { max-width: 100%; height: auto; display: block; }
   font-size: 0.85rem;
 }
 .comment-header time { color: var(--text-light); }
+.comment-loved { border-left-color: #e91e63; }
+.loved-badge { color: #e91e63; font-size: 0.8rem; font-weight: 600; }
+.love-form { margin-top: 0.5rem; }
+.love-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.love-btn:hover { background: #fce4ec; color: #e91e63; }
+.love-btn.loved { color: #e91e63; }
 
 /* === Prayer Cards === */
 .prayer-list { display: grid; gap: 1rem; margin: 1.5rem 0; }
@@ -398,6 +413,7 @@ img { max-width: 100%; height: auto; display: block; }
   flex-wrap: wrap;
 }
 .comment-admin-actions { margin-top: 0.5rem; display: flex; gap: 0.25rem; }
+.btn-loved { background: #fce4ec; border-color: #e91e63; color: #e91e63; }
 .prayer-respond-form { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
 .prayer-respond-form .form-row { align-items: center; }
 

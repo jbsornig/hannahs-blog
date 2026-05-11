@@ -270,6 +270,14 @@ router.post('/comments/:id/approve', requireAuth, (req, res) => {
   res.redirect('/admin/comments');
 });
 
+router.post('/comments/:id/love', requireAuth, (req, res) => {
+  const comment = db.prepare('SELECT loved FROM comments WHERE id = ?').get(req.params.id);
+  if (comment) {
+    db.prepare('UPDATE comments SET loved = ? WHERE id = ?').run(comment.loved ? 0 : 1, req.params.id);
+  }
+  res.redirect(req.get('Referrer') || '/admin/comments');
+});
+
 router.post('/comments/:id/delete', requireAuth, (req, res) => {
   db.prepare('DELETE FROM comments WHERE id = ?').run(req.params.id);
   res.redirect('/admin/comments');
