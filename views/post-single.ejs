@@ -22,22 +22,25 @@
 
   <div class="like-section">
     <% if (alreadyLiked) { %>
-      <button id="like-btn" class="like-btn liked" disabled>
-        <span class="like-heart"><%- '&#9829;' %></span>
-        <span id="like-count"><%= likeCount > 0 ? likeCount : '' %></span>
-      </button>
+      <div class="reaction-btns">
+        <button class="react-btn reacted" disabled>
+          <span id="like-count"><%= likeCount > 0 ? likeCount : '' %></span>
+        </button>
+      </div>
     <% } else { %>
-      <button id="like-btn" class="like-btn" onclick="showLikeForm()">
-        <span class="like-heart"><%- '&#9825;' %></span>
-        <span id="like-count"><%= likeCount > 0 ? likeCount : '' %></span>
-      </button>
+      <div class="reaction-btns">
+        <button class="react-btn" onclick="showLikeForm('heart')"><%- '&#9825;' %></button>
+        <button class="react-btn" onclick="showLikeForm('thumbsup')">&#128077;</button>
+        <span id="like-count" class="react-count"><%= likeCount > 0 ? likeCount : '' %></span>
+      </div>
       <div id="like-form" class="like-form" style="display:none;">
+        <input type="hidden" id="like-reaction" value="">
         <input type="text" id="like-name" placeholder="Your name (optional)" maxlength="50">
         <button class="btn btn-sm" onclick="submitLike()">Send</button>
       </div>
     <% } %>
     <% if (likeNames && likeNames.length > 0) { %>
-      <p class="like-names">Liked by <%= likeNames.join(', ') %></p>
+      <p class="like-names"><%- likeNames.join(', ') %></p>
     <% } %>
   </div>
 
@@ -113,33 +116,34 @@
 </div>
 
 <script>
-function showLikeForm() {
+function showLikeForm(reaction) {
+  document.getElementById('like-reaction').value = reaction;
   document.getElementById('like-form').style.display = 'flex';
   document.getElementById('like-name').focus();
 }
 function submitLike() {
   const name = document.getElementById('like-name').value.trim();
-  const btn = document.getElementById('like-btn');
+  const reaction = document.getElementById('like-reaction').value;
   fetch('/post/<%= post.slug %>/like', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: name })
+    body: JSON.stringify({ name: name, reaction: reaction })
   })
     .then(r => r.json())
     .then(data => {
-      btn.classList.add('liked');
-      btn.querySelector('.like-heart').innerHTML = '♥';
-      btn.disabled = true;
-      document.getElementById('like-count').textContent = data.count > 0 ? data.count : '';
+      var btns = document.querySelector('.reaction-btns');
+      btns.innerHTML = '<button class="react-btn reacted" disabled>' +
+        (reaction === 'heart' ? '♥' : '👍') +
+        '</button><span class="react-count">' + (data.count > 0 ? data.count : '') + '</span>';
       document.getElementById('like-form').style.display = 'none';
       if (data.names && data.names.length > 0) {
-        let el = document.querySelector('.like-names');
+        var el = document.querySelector('.like-names');
         if (!el) {
           el = document.createElement('p');
           el.className = 'like-names';
           document.querySelector('.like-section').appendChild(el);
         }
-        el.textContent = 'Liked by ' + data.names.join(', ');
+        el.innerHTML = data.names.join(', ');
       }
     });
 }

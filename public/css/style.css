@@ -408,39 +408,44 @@ img { max-width: 100%; height: auto; display: block; }
 .about-content ul { margin-left: 1.5rem; margin-bottom: 1rem; }
 .about-content li { margin-bottom: 0.5rem; }
 
-/* === Like Button === */
+/* === Reactions === */
 .like-section { margin: 1.5rem 0; }
-.like-btn {
-  display: inline-flex;
+.reaction-btns {
+  display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1.25rem;
+}
+.react-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   background: var(--bg-card);
   border: 2px solid var(--border);
-  border-radius: 2rem;
+  border-radius: 50%;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   transition: all 0.2s;
   box-shadow: var(--shadow);
 }
-.like-btn:hover { border-color: #e91e63; }
-.like-btn.liked { border-color: #e91e63; background: #fce4ec; }
-.like-heart { font-size: 1.4rem; color: #e91e63; line-height: 1; }
-.like-btn.liked .like-heart { color: #e91e63; }
+.react-btn:hover { border-color: #e91e63; transform: scale(1.1); }
+.react-btn.reacted { border-color: #e91e63; background: #fce4ec; cursor: default; }
+.react-count { font-size: 1rem; font-weight: 600; color: var(--text-light); margin-left: 0.25rem; }
 .like-form {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   margin-top: 0.75rem;
 }
-.like-form input {
+.like-form input[type="text"] {
   padding: 0.4rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   font-size: 0.9rem;
   width: 200px;
 }
-.like-form input:focus {
+.like-form input[type="text"]:focus {
   outline: none;
   border-color: var(--primary);
 }

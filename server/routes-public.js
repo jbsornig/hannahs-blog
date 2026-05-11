@@ -84,7 +84,7 @@ router.get('/post/:slug', (req, res) => {
   const likeCount = db.prepare('SELECT COUNT(*) as count FROM post_likes WHERE post_id = ?').get(post.id).count;
   const visitorId = req.cookies.visitor_id || '';
   const alreadyLiked = visitorId ? !!db.prepare('SELECT id FROM post_likes WHERE post_id = ? AND visitor_id = ?').get(post.id, visitorId) : false;
-  const likeNames = db.prepare("SELECT liker_name FROM post_likes WHERE post_id = ? AND liker_name IS NOT NULL AND liker_name != '' ORDER BY created_at DESC").all(post.id).map(r => r.liker_name);
+  const likeNames = db.prepare("SELECT liker_name, reaction FROM post_likes WHERE post_id = ? AND liker_name IS NOT NULL AND liker_name != '' ORDER BY created_at DESC").all(post.id).map(r => (r.reaction === 'thumbsup' ? '&#128077;' : '&#9829;') + ' ' + r.liker_name);
 
   res.render('post-single', { post, images, videos, comments, likeCount, alreadyLiked, likeNames, page: 'posts' });
 });
@@ -101,14 +101,16 @@ router.post('/post/:slug/like', (req, res) => {
   }
 
   const name = (req.body.name || '').trim().substring(0, 50);
+  const reaction = req.body.reaction === 'thumbsup' ? 'thumbsup' : 'heart';
 
   const existing = db.prepare('SELECT id FROM post_likes WHERE post_id = ? AND visitor_id = ?').get(post.id, visitorId);
   if (!existing) {
-    db.prepare('INSERT INTO post_likes (post_id, visitor_id, liker_name) VALUES (?, ?, ?)').run(post.id, visitorId, name || null);
+    db.prepare('INSERT INTO post_likes (post_id, visitor_id, liker_name, reaction) VALUES (?, ?, ?, ?)').run(post.id, visitorId, name || null, reaction);
   }
 
   const count = db.prepare('SELECT COUNT(*) as count FROM post_likes WHERE post_id = ?').get(post.id).count;
-  const names = db.prepare("SELECT liker_name FROM post_likes WHERE post_id = ? AND liker_name IS NOT NULL AND liker_name != '' ORDER BY created_at DESC").all(post.id).map(r => r.liker_name);
+  const likes = db.prepare("SELECT liker_name, reaction FROM post_likes WHERE post_id = ? AND liker_name IS NOT NULL AND liker_name != '' ORDER BY created_at DESC").all(post.id);
+  const names = likes.map(r => (r.reaction === 'thumbsup' ? '👍' : '♥') + ' ' + r.liker_name);
   res.json({ liked: true, count, names });
 });
 

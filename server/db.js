@@ -47,6 +47,7 @@ function initialize() {
       post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
       visitor_id TEXT NOT NULL,
       liker_name TEXT,
+      reaction TEXT DEFAULT 'heart',
       created_at TEXT DEFAULT (datetime('now')),
       UNIQUE(post_id, visitor_id)
     );
@@ -139,6 +140,11 @@ try {
   db.prepare("SELECT liker_name FROM post_likes LIMIT 0").run();
 } catch {
   try { db.exec("ALTER TABLE post_likes ADD COLUMN liker_name TEXT"); } catch {}
+}
+try {
+  db.prepare("SELECT reaction FROM post_likes LIMIT 0").run();
+} catch {
+  try { db.exec("ALTER TABLE post_likes ADD COLUMN reaction TEXT DEFAULT 'heart'"); } catch {}
 }
 
 module.exports = { db, DATA_DIR, UPLOADS_DIR };
