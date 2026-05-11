@@ -158,17 +158,17 @@ router.post('/prayers', (req, res) => {
 router.post('/subscribe', async (req, res) => {
   const { name, email } = req.body;
   if (!name || !email) {
-    return res.redirect('/?subscribe=error');
+    return res.redirect('/?subscribe=error#subscribe');
   }
 
   const existing = db.prepare('SELECT * FROM subscribers WHERE email = ?').get(email.trim().toLowerCase());
   if (existing) {
     if (existing.confirmed) {
-      return res.redirect('/?subscribe=already');
+      return res.redirect('/?subscribe=already#subscribe');
     }
     // Resend confirmation
     await sendConfirmation(existing);
-    return res.redirect('/?subscribe=pending');
+    return res.redirect('/?subscribe=pending#subscribe');
   }
 
   const token = crypto.randomBytes(32).toString('hex');
@@ -179,7 +179,7 @@ router.post('/subscribe', async (req, res) => {
   const subscriber = db.prepare('SELECT * FROM subscribers WHERE token = ?').get(token);
   await sendConfirmation(subscriber);
 
-  res.redirect('/?subscribe=pending');
+  res.redirect('/?subscribe=pending#subscribe');
 });
 
 // Confirm subscription
