@@ -71,4 +71,20 @@ async function notifySubscribers(post) {
   console.log(`Notified ${subscribers.length} subscribers about "${post.title}"`);
 }
 
-module.exports = { sendConfirmation, notifySubscribers };
+async function notifyCommentLoved(comment, postSlug) {
+  if (!comment.author_email) return;
+
+  const postUrl = `${BLOG_URL}/post/${postSlug}`;
+  const html = `
+    <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto;">
+      <h2 style="color: #e91e63;">&#9829; Hannah loved your comment!</h2>
+      <p>Hi ${comment.author_name},</p>
+      <p>Hannah loved the comment you left on her blog:</p>
+      <blockquote style="border-left: 3px solid #e91e63; padding-left: 1rem; color: #555; margin: 1rem 0;">${comment.content}</blockquote>
+      <p><a href="${postUrl}" style="display: inline-block; padding: 10px 24px; background: #2563eb; color: white; text-decoration: none; border-radius: 6px;">View Post</a></p>
+    </div>
+  `;
+  await sendEmail(comment.author_email, "Hannah loved your comment!", html);
+}
+
+module.exports = { sendConfirmation, notifySubscribers, notifyCommentLoved };

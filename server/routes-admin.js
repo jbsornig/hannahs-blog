@@ -5,7 +5,7 @@ const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
 const { db, UPLOADS_DIR } = require('./db');
-const { notifySubscribers } = require('./email');
+const { notifySubscribers, notifyCommentLoved } = require('./email');
 
 // Ensure tmp upload directory exists
 const TMP_DIR = path.join(UPLOADS_DIR, 'tmp');
@@ -271,9 +271,13 @@ router.post('/comments/:id/approve', requireAuth, (req, res) => {
 });
 
 router.post('/comments/:id/love', requireAuth, (req, res) => {
-  const comment = db.prepare('SELECT loved FROM comments WHERE id = ?').get(req.params.id);
+  const comment = db.prepare('SELECT c.*, p.slug as post_slug FROM comments c LEFT JOIN posts p ON c.post_id = p.id WHERE c.id = ?').get(req.params.id);
   if (comment) {
-    db.prepare('UPDATE comments SET loved = ? WHERE id = ?').run(comment.loved ? 0 : 1, req.params.id);
+    const newLoved = comment.loved ? 0 : 1;
+    db.prepare('UPDATE comments SET loved = ? WHERE id = ?').run(newLoved, req.params.id);
+    if (newLoved && comment.author_email) {
+      notifyCommentLoved(comment, comment.post_slug).catch(err => console.error('Love notification error:', err));
+    }
   }
   res.redirect(req.get('Referrer') || '/admin/comments');
 });
