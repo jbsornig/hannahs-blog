@@ -427,6 +427,28 @@ img { max-width: 100%; height: auto; display: block; }
 .like-btn.liked { border-color: #e91e63; background: #fce4ec; }
 .like-heart { font-size: 1.4rem; color: #e91e63; line-height: 1; }
 .like-btn.liked .like-heart { color: #e91e63; }
+.like-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+.like-form input {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  width: 200px;
+}
+.like-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+.like-names {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
 
 /* === Video Gallery === */
 .video-gallery { margin: 2rem 0; }

@@ -84,8 +84,9 @@ router.get('/post/:slug', (req, res) => {
   const likeCount = db.prepare('SELECT COUNT(*) as count FROM post_likes WHERE post_id = ?').get(post.id).count;
   const visitorId = req.cookies.visitor_id || '';
   const alreadyLiked = visitorId ? !!db.prepare('SELECT id FROM post_likes WHERE post_id = ? AND visitor_id = ?').get(post.id, visitorId) : false;
+  const likeNames = db.prepare("SELECT liker_name FROM post_likes WHERE post_id = ? AND liker_name IS NOT NULL AND liker_name != '' ORDER BY created_at DESC").all(post.id).map(r => r.liker_name);
 
-  res.render('post-single', { post, images, videos, comments, likeCount, alreadyLiked, page: 'posts' });
+  res.render('post-single', { post, images, videos, comments, likeCount, alreadyLiked, likeNames, page: 'posts' });
 });
 
 // Like a post
@@ -99,13 +100,16 @@ router.post('/post/:slug/like', (req, res) => {
     res.cookie('visitor_id', visitorId, { maxAge: 365 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
   }
 
+  const name = (req.body.name || '').trim().substring(0, 50);
+
   const existing = db.prepare('SELECT id FROM post_likes WHERE post_id = ? AND visitor_id = ?').get(post.id, visitorId);
   if (!existing) {
-    db.prepare('INSERT INTO post_likes (post_id, visitor_id) VALUES (?, ?)').run(post.id, visitorId);
+    db.prepare('INSERT INTO post_likes (post_id, visitor_id, liker_name) VALUES (?, ?, ?)').run(post.id, visitorId, name || null);
   }
 
   const count = db.prepare('SELECT COUNT(*) as count FROM post_likes WHERE post_id = ?').get(post.id).count;
-  res.json({ liked: true, count });
+  const names = db.prepare("SELECT liker_name FROM post_likes WHERE post_id = ? AND liker_name IS NOT NULL AND liker_name != '' ORDER BY created_at DESC").all(post.id).map(r => r.liker_name);
+  res.json({ liked: true, count, names });
 });
 
 // Submit comment

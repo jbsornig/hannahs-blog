@@ -21,10 +21,24 @@
   </div>
 
   <div class="like-section">
-    <button id="like-btn" class="like-btn <%= alreadyLiked ? 'liked' : '' %>" onclick="likePost()">
-      <span class="like-heart"><%- alreadyLiked ? '&#9829;' : '&#9825;' %></span>
-      <span id="like-count"><%= likeCount > 0 ? likeCount : '' %></span>
-    </button>
+    <% if (alreadyLiked) { %>
+      <button id="like-btn" class="like-btn liked" disabled>
+        <span class="like-heart"><%- '&#9829;' %></span>
+        <span id="like-count"><%= likeCount > 0 ? likeCount : '' %></span>
+      </button>
+    <% } else { %>
+      <button id="like-btn" class="like-btn" onclick="showLikeForm()">
+        <span class="like-heart"><%- '&#9825;' %></span>
+        <span id="like-count"><%= likeCount > 0 ? likeCount : '' %></span>
+      </button>
+      <div id="like-form" class="like-form" style="display:none;">
+        <input type="text" id="like-name" placeholder="Your name (optional)" maxlength="50">
+        <button class="btn btn-sm" onclick="submitLike()">Send</button>
+      </div>
+    <% } %>
+    <% if (likeNames && likeNames.length > 0) { %>
+      <p class="like-names">Liked by <%= likeNames.join(', ') %></p>
+    <% } %>
   </div>
 
   <% if (images.length > 0) { %>
@@ -99,17 +113,39 @@
 </div>
 
 <script>
-function likePost() {
+function showLikeForm() {
+  document.getElementById('like-form').style.display = 'flex';
+  document.getElementById('like-name').focus();
+}
+function submitLike() {
+  const name = document.getElementById('like-name').value.trim();
   const btn = document.getElementById('like-btn');
-  if (btn.classList.contains('liked')) return;
-  fetch('/post/<%= post.slug %>/like', { method: 'POST' })
+  fetch('/post/<%= post.slug %>/like', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name })
+  })
     .then(r => r.json())
     .then(data => {
       btn.classList.add('liked');
       btn.querySelector('.like-heart').innerHTML = '♥';
+      btn.disabled = true;
       document.getElementById('like-count').textContent = data.count > 0 ? data.count : '';
+      document.getElementById('like-form').style.display = 'none';
+      if (data.names && data.names.length > 0) {
+        let el = document.querySelector('.like-names');
+        if (!el) {
+          el = document.createElement('p');
+          el.className = 'like-names';
+          document.querySelector('.like-section').appendChild(el);
+        }
+        el.textContent = 'Liked by ' + data.names.join(', ');
+      }
     });
 }
+document.getElementById('like-name')?.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); submitLike(); }
+});
 </script>
 
 <%- include('layouts/footer') %>
