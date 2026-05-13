@@ -39,6 +39,9 @@ app.use('/uploads', express.static(UPLOADS_DIR));
 app.use((req, res, next) => {
   res.locals.session = req.session;
   res.locals.currentYear = new Date().getFullYear();
+  res.locals.formatDate = function(dateStr, opts) {
+    return new Date(dateStr).toLocaleDateString('en-US', Object.assign({ timeZone: 'America/Guatemala' }, opts || { month: 'long', day: 'numeric', year: 'numeric' }));
+  };
   const siteNameRow = db.prepare("SELECT value FROM settings WHERE key = 'site_name'").get();
   res.locals.siteName = (siteNameRow && siteNameRow.value) || "Hannah's Blog";
   const footerRow = db.prepare("SELECT value FROM settings WHERE key = 'footer_text'").get();

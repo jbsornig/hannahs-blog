@@ -6,7 +6,7 @@
     <h1><%= post.title %></h1>
     <div class="post-meta">
       <span>By <%= post.author_name %></span>
-      <time><%= new Date(post.created_at).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) %></time>
+      <time><%= formatDate(post.created_at, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) %></time>
     </div>
   </header>
 
@@ -85,7 +85,7 @@
     <div class="comment <%= comment.loved ? 'comment-loved' : '' %>">
       <div class="comment-header">
         <strong><%= comment.author_name %></strong>
-        <time><%= new Date(comment.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
+        <time><%= formatDate(comment.created_at, { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
         <% if (comment.loved) { %>
           <span class="loved-badge"><%- '&#9829;' %> by Hannah</span>
         <% } %>
@@ -120,9 +120,13 @@
   </form>
 </section>
 
-<!-- Lightbox -->
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img" src="" alt="">
+<!-- Lightbox with navigation -->
+<div id="lightbox" class="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-prev" onclick="prevImage()">&lsaquo;</button>
+  <img id="lightbox-img" src="" alt="" onclick="nextImage()">
+  <button class="lightbox-next" onclick="nextImage()">&rsaquo;</button>
+  <span class="lightbox-counter" id="lightbox-counter"></span>
 </div>
 
 <script>

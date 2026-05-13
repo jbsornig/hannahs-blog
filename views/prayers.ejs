@@ -27,7 +27,7 @@
           <p class="prayer-content">"<%= prayer.content %>"</p>
           <div class="prayer-footer">
             <span class="prayer-author">- <%= prayer.author_name %></span>
-            <time><%= new Date(prayer.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></time>
+            <time><%= formatDate(prayer.created_at, { month: 'short', day: 'numeric' }) %></time>
           </div>
           <% if (prayer.response) { %>
             <div class="prayer-response">
