@@ -435,6 +435,9 @@ img { max-width: 100%; height: auto; display: block; }
 .image-preview { width: 120px; }
 .image-preview img { height: 80px; width: 100%; object-fit: cover; border-radius: 4px; }
 .image-preview.featured { border: 2px solid var(--primary); border-radius: 6px; padding: 2px; }
+.caption-form { display: flex; gap: 0.25rem; margin-top: 0.25rem; }
+.caption-form input { flex: 1; padding: 0.2rem 0.4rem; font-size: 0.75rem; border: 1px solid var(--border); border-radius: 4px; min-width: 0; }
+.caption-form .btn { padding: 0.15rem 0.4rem; font-size: 0.7rem; }
 
 .comment-admin-card, .prayer-admin-card {
   background: var(--bg-card);

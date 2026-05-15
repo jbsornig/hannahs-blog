@@ -214,6 +214,13 @@ router.post('/posts/:id/delete', requireAuth, (req, res) => {
   res.redirect('/admin');
 });
 
+// Update image caption
+router.post('/images/:id/caption', requireAuth, (req, res) => {
+  const caption = (req.body.caption || '').trim();
+  db.prepare('UPDATE post_images SET caption = ? WHERE id = ?').run(caption || null, req.params.id);
+  res.redirect(req.get('Referrer') || '/admin');
+});
+
 // Set featured image
 router.post('/images/:id/feature', requireAuth, (req, res) => {
   const image = db.prepare('SELECT * FROM post_images WHERE id = ?').get(req.params.id);

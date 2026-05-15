@@ -10,6 +10,10 @@
         <% images.forEach(img => { %>
           <div class="image-preview <%= post.featured_image === img.filename ? 'featured' : '' %>">
             <img src="/uploads/<%= img.filename %>" alt="">
+            <form action="/admin/images/<%= img.id %>/caption" method="POST" class="caption-form">
+              <input type="text" name="caption" value="<%= img.caption || '' %>" placeholder="Caption (optional)">
+              <button type="submit" class="btn btn-sm">Save</button>
+            </form>
             <% if (post.featured_image === img.filename) { %>
               <span class="badge badge-active">Featured</span>
             <% } else { %>
