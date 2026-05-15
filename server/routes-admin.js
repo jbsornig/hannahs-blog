@@ -214,6 +214,15 @@ router.post('/posts/:id/delete', requireAuth, (req, res) => {
   res.redirect('/admin');
 });
 
+// Set featured image
+router.post('/images/:id/feature', requireAuth, (req, res) => {
+  const image = db.prepare('SELECT * FROM post_images WHERE id = ?').get(req.params.id);
+  if (image) {
+    db.prepare('UPDATE posts SET featured_image = ? WHERE id = ?').run(image.filename, image.post_id);
+  }
+  res.redirect(req.get('Referrer') || '/admin');
+});
+
 // Delete image
 router.post('/images/:id/delete', requireAuth, (req, res) => {
   const image = db.prepare('SELECT * FROM post_images WHERE id = ?').get(req.params.id);

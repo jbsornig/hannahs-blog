@@ -8,8 +8,15 @@
       <label>Current Photos</label>
       <div class="image-preview-grid">
         <% images.forEach(img => { %>
-          <div class="image-preview">
+          <div class="image-preview <%= post.featured_image === img.filename ? 'featured' : '' %>">
             <img src="/uploads/<%= img.filename %>" alt="">
+            <% if (post.featured_image === img.filename) { %>
+              <span class="badge badge-active">Featured</span>
+            <% } else { %>
+              <form action="/admin/images/<%= img.id %>/feature" method="POST">
+                <button type="submit" class="btn btn-sm">Set Featured</button>
+              </form>
+            <% } %>
             <form action="/admin/images/<%= img.id %>/delete" method="POST">
               <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Remove this photo?')">Remove</button>
             </form>
