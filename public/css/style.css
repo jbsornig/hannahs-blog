@@ -228,7 +228,9 @@ img { max-width: 100%; height: auto; display: block; }
   border-left: 3px solid #7c3aed;
 }
 .encouragement-card p { font-style: italic; margin-bottom: 0.5rem; }
+.encouragement-footer { display: flex; justify-content: space-between; align-items: center; }
 .encouragement-author { font-size: 0.85rem; color: var(--text-light); font-weight: 500; }
+.encouragement-footer time { font-size: 0.8rem; color: var(--text-light); }
 
 /* === Category Filter === */
 .category-filter {

@@ -27,7 +27,10 @@
       <% messages.forEach(msg => { %>
         <div class="encouragement-card">
           <p>"<%= msg.content %>"</p>
-          <span class="encouragement-author">- <%= msg.author_name %></span>
+          <div class="encouragement-footer">
+            <span class="encouragement-author">- <%= msg.author_name %></span>
+            <time><%= formatDate(msg.created_at, { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
+          </div>
         </div>
       <% }) %>
     </div>
