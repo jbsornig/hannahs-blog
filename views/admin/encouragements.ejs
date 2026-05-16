@@ -1,0 +1,30 @@
+<%- include('../layouts/header') %>
+
+<section class="section">
+  <div class="admin-header">
+    <h1>Encouragements</h1>
+    <a href="/admin" class="btn btn-outline">Back to Dashboard</a>
+  </div>
+
+  <% if (messages.length === 0) { %>
+    <p class="empty-state">No encouragement messages yet.</p>
+  <% } else { %>
+    <% messages.forEach(msg => { %>
+      <div class="comment-admin-card">
+        <div class="comment-admin-header">
+          <strong><%= msg.author_name %></strong>
+          <time><%= new Date(msg.created_at).toLocaleDateString() %></time>
+        </div>
+        <p><%= msg.content %></p>
+        <div class="comment-admin-actions">
+          <form action="/admin/encouragements/<%= msg.id %>/delete" method="POST" style="display:inline"
+            onsubmit="return confirm('Delete this message?')">
+            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+</section>
+
+<%- include('../layouts/footer') %>

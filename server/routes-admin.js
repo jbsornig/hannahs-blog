@@ -75,11 +75,12 @@ router.get('/', requireAuth, (req, res) => {
   db.prepare('SELECT key, value FROM settings').all().forEach(s => { settings[s.key] = s.value; });
 
   const subscriberCount = db.prepare('SELECT COUNT(*) as count FROM subscribers WHERE confirmed = 1').get().count;
+  const encouragementCount = db.prepare('SELECT COUNT(*) as count FROM encouragements').get().count;
 
   const recentPosts = db.prepare('SELECT * FROM posts ORDER BY created_at DESC LIMIT 5').all();
 
   res.render('admin/dashboard', {
-    postCount, commentCount, prayerCount, subscriberCount, stats, settings, recentPosts, page: 'admin'
+    postCount, commentCount, prayerCount, subscriberCount, encouragementCount, stats, settings, recentPosts, page: 'admin'
   });
 });
 
@@ -337,6 +338,17 @@ router.post('/prayers/:id/respond', requireAuth, (req, res) => {
 router.post('/prayers/:id/delete', requireAuth, (req, res) => {
   db.prepare('DELETE FROM prayer_requests WHERE id = ?').run(req.params.id);
   res.redirect('/admin/prayers');
+});
+
+// Encouragement management
+router.get('/encouragements', requireAuth, (req, res) => {
+  const messages = db.prepare('SELECT * FROM encouragements ORDER BY created_at DESC').all();
+  res.render('admin/encouragements', { messages, page: 'admin' });
+});
+
+router.post('/encouragements/:id/delete', requireAuth, (req, res) => {
+  db.prepare('DELETE FROM encouragements WHERE id = ?').run(req.params.id);
+  res.redirect('/admin/encouragements');
 });
 
 // Site content management
