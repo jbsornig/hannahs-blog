@@ -298,7 +298,8 @@ router.post('/comments/:id/approve', requireAuth, (req, res) => {
 router.post('/comments/:id/reply', requireAuth, (req, res) => {
   const reply = (req.body.reply || '').trim();
   db.prepare('UPDATE comments SET reply = ? WHERE id = ?').run(reply || null, req.params.id);
-  res.redirect(req.get('Referrer') || '/admin/comments');
+  const comment = db.prepare('SELECT c.post_id, p.slug FROM comments c LEFT JOIN posts p ON c.post_id = p.id WHERE c.id = ?').get(req.params.id);
+  res.redirect(comment && comment.slug ? `/post/${comment.slug}` : '/admin/comments');
 });
 
 router.post('/comments/:id/love', requireAuth, (req, res) => {
@@ -310,7 +311,8 @@ router.post('/comments/:id/love', requireAuth, (req, res) => {
       notifyCommentLoved(comment, comment.post_slug).catch(err => console.error('Love notification error:', err));
     }
   }
-  res.redirect(req.get('Referrer') || '/admin/comments');
+  const redirectTo = comment && comment.post_slug ? `/post/${comment.post_slug}` : '/admin/comments';
+  res.redirect(req.get('Referrer') || redirectTo);
 });
 
 router.post('/comments/:id/delete', requireAuth, (req, res) => {
