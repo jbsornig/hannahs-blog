@@ -72,6 +72,18 @@
           Publish immediately
         </label>
       </div>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" name="pinned" value="1" <%= (post && post.pinned) ? 'checked' : '' %>>
+          Pin to top
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="group_name">Church Group (optional, for build reports)</label>
+      <input type="text" id="group_name" name="group_name" value="<%= post ? (post.group_name || '') : '' %>"
+        placeholder="e.g. First Baptist of Springfield">
     </div>
 
     <div class="form-group">

@@ -80,6 +80,7 @@
         <% } %>
         <div class="post-card-body">
           <span class="post-category category-<%= post.category %>"><%= post.category %></span>
+          <% if (post.pinned) { %><span class="pinned-badge">Pinned</span><% } %>
           <h3><a href="/post/<%= post.slug %>"><%= post.title %></a></h3>
           <p class="post-excerpt"><%= post.excerpt || post.content.substring(0, 150) + '...' %></p>
           <div class="post-meta">

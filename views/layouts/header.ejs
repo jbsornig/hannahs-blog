@@ -15,6 +15,7 @@
         <a href="/" class="<%= page === 'home' ? 'active' : '' %>">Home</a>
         <a href="/posts" class="<%= page === 'posts' ? 'active' : '' %>">Posts</a>
         <a href="/prayers" class="<%= page === 'prayers' ? 'active' : '' %>">Prayer Requests</a>
+        <a href="/encouragement" class="<%= page === 'encouragement' ? 'active' : '' %>">Encouragement</a>
         <a href="/about" class="<%= page === 'about' ? 'active' : '' %>">About</a>
         <% if (session && session.userId) { %>
           <a href="/admin" class="nav-admin">Admin</a>

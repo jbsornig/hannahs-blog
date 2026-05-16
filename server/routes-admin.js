@@ -106,7 +106,7 @@ const postUpload = upload.fields([
 
 router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
   try {
-  const { id, title, content, excerpt, category, published } = req.body;
+  const { id, title, content, excerpt, category, published, pinned, group_name } = req.body;
   const isNew = !id;
   const wasPublished = id ? db.prepare('SELECT published FROM posts WHERE id = ?').get(id) : null;
 
@@ -117,14 +117,14 @@ router.post('/posts/save', requireAuth, postUpload, async (req, res) => {
     slug = existing ? existing.slug : createSlug(title);
     db.prepare(`
       UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, category = ?,
-        published = ?, updated_at = datetime('now') WHERE id = ?
-    `).run(title, slug, content, excerpt || '', category, published ? 1 : 0, id);
+        published = ?, pinned = ?, group_name = ?, updated_at = datetime('now') WHERE id = ?
+    `).run(title, slug, content, excerpt || '', category, published ? 1 : 0, pinned ? 1 : 0, group_name || null, id);
   } else {
     slug = createSlug(title);
     const result = db.prepare(`
-      INSERT INTO posts (title, slug, content, excerpt, category, published, author_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).run(title, slug, content, excerpt || '', category, published ? 1 : 0, req.session.userId);
+      INSERT INTO posts (title, slug, content, excerpt, category, published, pinned, group_name, author_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(title, slug, content, excerpt || '', category, published ? 1 : 0, pinned ? 1 : 0, group_name || null, req.session.userId);
 
     req.body.id = result.lastInsertRowid;
   }

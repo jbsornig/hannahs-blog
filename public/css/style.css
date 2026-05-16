@@ -186,6 +186,34 @@ img { max-width: 100%; height: auto; display: block; }
 .category-build-report { background: #fef3c7; color: #92400e; }
 .category-prayer { background: #ede9fe; color: #6d28d9; }
 .category-photos { background: #d1fae5; color: #065f46; }
+.pinned-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: #fef3c7; color: #92400e; }
+.group-tag { background: #e0e7ff; color: #3730a3; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 500; }
+
+/* === Share Button === */
+.share-btn {
+  margin-top: 0.5rem;
+  padding: 0.35rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.share-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* === Encouragement Wall === */
+.encouragement-wall { margin-top: 2rem; display: grid; gap: 1rem; }
+.encouragement-card {
+  background: var(--bg-card);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border-left: 3px solid #7c3aed;
+}
+.encouragement-card p { font-style: italic; margin-bottom: 0.5rem; }
+.encouragement-author { font-size: 0.85rem; color: var(--text-light); font-weight: 500; }
 
 /* === Category Filter === */
 .category-filter {

@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     FROM posts p
     LEFT JOIN users u ON p.author_id = u.id
     WHERE p.published = 1
-    ORDER BY p.created_at DESC
+    ORDER BY p.pinned DESC, p.created_at DESC
     LIMIT 5
   `).all();
 
@@ -210,6 +210,21 @@ router.get('/about', (req, res) => {
   const aboutRow = db.prepare("SELECT value FROM settings WHERE key = 'about_content'").get();
   const aboutContent = aboutRow ? aboutRow.value : '';
   res.render('about', { stats, aboutContent, page: 'about' });
+});
+
+// Encouragement wall
+router.get('/encouragement', (req, res) => {
+  const messages = db.prepare('SELECT * FROM encouragements ORDER BY created_at DESC').all();
+  res.render('encouragement', { messages, submitted: req.query.submitted || null, page: 'encouragement' });
+});
+
+router.post('/encouragement', (req, res) => {
+  const { author_name, content } = req.body;
+  if (!author_name || !content) {
+    return res.redirect('/encouragement');
+  }
+  db.prepare('INSERT INTO encouragements (author_name, content) VALUES (?, ?)').run(author_name.trim(), content.trim());
+  res.redirect('/encouragement?submitted=1');
 });
 
 module.exports = router;

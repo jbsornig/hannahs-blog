@@ -7,7 +7,11 @@
     <div class="post-meta">
       <span>By <%= post.author_name %></span>
       <time><%= formatDate(post.created_at, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) %></time>
+      <% if (post.group_name) { %>
+        <span class="group-tag">Built with: <%= post.group_name %></span>
+      <% } %>
     </div>
+    <button class="share-btn" onclick="sharePost()">Share</button>
   </header>
 
   <% if (post.featured_image) { %>
@@ -142,6 +146,18 @@
 </div>
 
 <script>
+function sharePost() {
+  var url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: '<%= post.title %>', url: url });
+  } else {
+    navigator.clipboard.writeText(url).then(function() {
+      var btn = document.querySelector('.share-btn');
+      btn.textContent = 'Link Copied!';
+      setTimeout(function() { btn.textContent = 'Share'; }, 2000);
+    });
+  }
+}
 function showLikeForm(reaction) {
   document.getElementById('like-reaction').value = reaction;
   document.getElementById('like-form').style.display = 'flex';

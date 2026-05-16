@@ -37,6 +37,8 @@ function initialize() {
       category TEXT NOT NULL DEFAULT 'update',
       featured_image TEXT,
       published INTEGER DEFAULT 0,
+      pinned INTEGER DEFAULT 0,
+      group_name TEXT,
       author_id INTEGER REFERENCES users(id),
       created_at TEXT DEFAULT (datetime('now')),
       updated_at TEXT DEFAULT (datetime('now'))
@@ -50,6 +52,13 @@ function initialize() {
       reaction TEXT DEFAULT 'heart',
       created_at TEXT DEFAULT (datetime('now')),
       UNIQUE(post_id, visitor_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS encouragements (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      author_name TEXT NOT NULL,
+      content TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now'))
     );
 
     CREATE TABLE IF NOT EXISTS post_images (
@@ -157,6 +166,16 @@ try {
   db.prepare("SELECT reply FROM comments LIMIT 0").run();
 } catch {
   try { db.exec("ALTER TABLE comments ADD COLUMN reply TEXT"); } catch {}
+}
+try {
+  db.prepare("SELECT pinned FROM posts LIMIT 0").run();
+} catch {
+  try { db.exec("ALTER TABLE posts ADD COLUMN pinned INTEGER DEFAULT 0"); } catch {}
+}
+try {
+  db.prepare("SELECT group_name FROM posts LIMIT 0").run();
+} catch {
+  try { db.exec("ALTER TABLE posts ADD COLUMN group_name TEXT"); } catch {}
 }
 
 module.exports = { db, DATA_DIR, UPLOADS_DIR };
