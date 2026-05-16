@@ -91,12 +91,24 @@
         <% } %>
       </div>
       <p><%= comment.content %></p>
+      <% if (comment.reply) { %>
+        <div class="comment-reply">
+          <strong>Hannah</strong>
+          <p><%= comment.reply %></p>
+        </div>
+      <% } %>
       <% if (session && session.userId) { %>
-        <form action="/admin/comments/<%= comment.id %>/love" method="POST" class="love-form">
-          <button type="submit" class="love-btn <%= comment.loved ? 'loved' : '' %>">
-            <%- comment.loved ? '&#9829; Unlove' : '&#9825; Love' %>
-          </button>
-        </form>
+        <div class="comment-admin-tools">
+          <form action="/admin/comments/<%= comment.id %>/reply" method="POST" class="reply-form">
+            <input type="text" name="reply" value="<%= comment.reply || '' %>" placeholder="Write a reply...">
+            <button type="submit" class="btn btn-sm"><%= comment.reply ? 'Update' : 'Reply' %></button>
+          </form>
+          <form action="/admin/comments/<%= comment.id %>/love" method="POST" class="love-form">
+            <button type="submit" class="love-btn <%= comment.loved ? 'loved' : '' %>">
+              <%- comment.loved ? '&#9829; Unlove' : '&#9825; Love' %>
+            </button>
+          </form>
+        </div>
       <% } %>
     </div>
   <% }) %>

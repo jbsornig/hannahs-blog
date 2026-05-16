@@ -295,6 +295,12 @@ router.post('/comments/:id/approve', requireAuth, (req, res) => {
   res.redirect('/admin/comments');
 });
 
+router.post('/comments/:id/reply', requireAuth, (req, res) => {
+  const reply = (req.body.reply || '').trim();
+  db.prepare('UPDATE comments SET reply = ? WHERE id = ?').run(reply || null, req.params.id);
+  res.redirect(req.get('Referrer') || '/admin/comments');
+});
+
 router.post('/comments/:id/love', requireAuth, (req, res) => {
   const comment = db.prepare('SELECT c.*, p.slug as post_slug FROM comments c LEFT JOIN posts p ON c.post_id = p.id WHERE c.id = ?').get(req.params.id);
   if (comment) {

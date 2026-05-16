@@ -69,6 +69,7 @@ function initialize() {
       content TEXT NOT NULL,
       approved INTEGER DEFAULT 0,
       loved INTEGER DEFAULT 0,
+      reply TEXT,
       created_at TEXT DEFAULT (datetime('now'))
     );
 
@@ -151,6 +152,11 @@ try {
   db.prepare("SELECT loved FROM comments LIMIT 0").run();
 } catch {
   try { db.exec("ALTER TABLE comments ADD COLUMN loved INTEGER DEFAULT 0"); } catch {}
+}
+try {
+  db.prepare("SELECT reply FROM comments LIMIT 0").run();
+} catch {
+  try { db.exec("ALTER TABLE comments ADD COLUMN reply TEXT"); } catch {}
 }
 
 module.exports = { db, DATA_DIR, UPLOADS_DIR };

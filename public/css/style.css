@@ -287,6 +287,19 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .comment-header time { color: var(--text-light); }
 .comment-loved { border-left-color: #e91e63; }
+.comment-reply {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #f5f3ff;
+  border-radius: var(--radius);
+  border-left: 3px solid #7c3aed;
+}
+.comment-reply strong { color: #7c3aed; font-size: 0.85rem; }
+.comment-reply p { margin-top: 0.25rem; font-size: 0.9rem; }
+.comment-admin-tools { margin-top: 0.5rem; display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.reply-form { display: flex; gap: 0.25rem; flex: 1; min-width: 200px; }
+.reply-form input { flex: 1; padding: 0.3rem 0.5rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.85rem; }
+.reply-form input:focus { outline: none; border-color: var(--primary); }
 .loved-badge { color: #e91e63; font-size: 0.8rem; font-weight: 600; }
 .love-form { margin-top: 0.5rem; }
 .love-btn {
