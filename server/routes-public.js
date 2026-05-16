@@ -9,7 +9,8 @@ router.get('/', (req, res) => {
   const posts = db.prepare(`
     SELECT p.*, u.display_name as author_name,
       (SELECT COUNT(*) FROM comments WHERE post_id = p.id AND approved = 1) as comment_count,
-      (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) as like_count
+      (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) as like_count,
+      (SELECT COUNT(*) FROM comments WHERE post_id = p.id AND approved = 1 AND reply IS NOT NULL) as reply_count
     FROM posts p
     LEFT JOIN users u ON p.author_id = u.id
     WHERE p.published = 1
