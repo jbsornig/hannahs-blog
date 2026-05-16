@@ -204,6 +204,21 @@ img { max-width: 100%; height: auto; display: block; }
 .share-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
 /* === Encouragement Wall === */
+.encouragement-cta { padding: 0; }
+.encouragement-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border-left: 4px solid #7c3aed;
+  color: var(--text);
+  transition: box-shadow 0.2s;
+}
+.encouragement-link:hover { box-shadow: var(--shadow-lg); text-decoration: none; }
+.encouragement-icon { font-size: 1.5rem; }
 .encouragement-wall { margin-top: 2rem; display: grid; gap: 1rem; }
 .encouragement-card {
   background: var(--bg-card);
