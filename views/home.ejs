@@ -68,7 +68,7 @@
 <section class="section encouragement-cta">
   <a href="/encouragement" class="encouragement-link">
     <span class="encouragement-icon">&#9993;</span>
-    <span><strong>Leave an Encouragement Note</strong> — Send Hannah a message of support!</span>
+    <span><strong>Leave an Encouragement Note</strong> — <%= encouragementCount > 0 ? encouragementCount + ' message' + (encouragementCount !== 1 ? 's' : '') + ' and counting!' : 'Send Hannah a message of support!' %></span>
   </a>
 </section>
 

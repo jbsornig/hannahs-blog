@@ -219,7 +219,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .encouragement-link:hover { box-shadow: var(--shadow-lg); text-decoration: none; }
 .encouragement-icon { font-size: 1.5rem; }
-.encouragement-wall { margin-top: 2rem; display: grid; gap: 1rem; }
+.encouragement-count { margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-light); font-weight: 500; }
+.encouragement-wall { margin-top: 0.75rem; display: grid; gap: 1rem; }
 .encouragement-card {
   background: var(--bg-card);
   padding: 1.25rem;

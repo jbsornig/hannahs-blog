@@ -23,6 +23,7 @@
   </form>
 
   <% if (messages.length > 0) { %>
+    <p class="encouragement-count"><%= messages.length %> message<%= messages.length !== 1 ? 's' : '' %> of encouragement</p>
     <div class="encouragement-wall">
       <% messages.forEach(msg => { %>
         <div class="encouragement-card">
