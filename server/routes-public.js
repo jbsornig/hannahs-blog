@@ -32,7 +32,10 @@ router.get('/', (req, res) => {
 
   const encouragementCount = db.prepare('SELECT COUNT(*) as count FROM encouragements').get().count;
 
-  res.render('home', { posts, stats, settings, recentPrayers, encouragementCount, page: 'home', subscribe: req.query.subscribe || null });
+  db.prepare("UPDATE stats SET value = value + 1 WHERE key = 'visitor_count'").run();
+  const visitorCount = db.prepare("SELECT value FROM stats WHERE key = 'visitor_count'").get();
+
+  res.render('home', { posts, stats, settings, recentPrayers, encouragementCount, visitorCount: visitorCount ? visitorCount.value : 0, page: 'home', subscribe: req.query.subscribe || null });
 });
 
 // All posts (with optional category filter)

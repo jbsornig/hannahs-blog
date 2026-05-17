@@ -127,6 +127,7 @@ function initialize() {
   insertStat.run('homes_completed', 0);
   insertStat.run('groups_hosted', 0);
   insertStat.run('families_served', 0);
+  insertStat.run('visitor_count', 0);
 
   // Seed default settings
   const insertSetting = db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)');

@@ -5,6 +5,12 @@
   <p class="hero-subtitle"><%= settings.hero_subtitle || "Follow Hannah's journey as she helps build homes and transform lives" %></p>
 </section>
 
+<div class="location-bar">
+  <span class="location-item" id="gt-time"></span>
+  <span class="location-item" id="gt-weather"></span>
+  <span class="location-item"><%= visitorCount %> visit<%= visitorCount !== 1 ? 's' : '' %></span>
+</div>
+
 <section class="stats-bar">
   <% if (settings.trip_start) { %>
     <div class="stat-item">
@@ -151,5 +157,29 @@
   <p class="form-note">You'll receive a confirmation email you need to click before getting updates. Unsubscribe anytime.</p>
   <% } %>
 </section>
+
+<script>
+(function() {
+  function updateClock() {
+    var now = new Date();
+    var opts = { timeZone: 'America/Guatemala', hour: 'numeric', minute: '2-digit', weekday: 'short', month: 'short', day: 'numeric' };
+    var el = document.getElementById('gt-time');
+    if (el) el.textContent = 'San Raymundo: ' + now.toLocaleString('en-US', opts);
+  }
+  updateClock();
+  setInterval(updateClock, 60000);
+
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=14.7653&longitude=-90.5956&current=temperature_2m,weather_code&temperature_unit=fahrenheit')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var temp = Math.round(data.current.temperature_2m);
+      var code = data.current.weather_code;
+      var desc = code === 0 ? 'Clear' : code <= 3 ? 'Partly Cloudy' : code <= 48 ? 'Cloudy' : code <= 67 ? 'Rain' : code <= 77 ? 'Snow' : 'Storms';
+      var el = document.getElementById('gt-weather');
+      if (el) el.textContent = temp + '°F ' + desc;
+    })
+    .catch(function() {});
+})();
+</script>
 
 <%- include('layouts/footer') %>
