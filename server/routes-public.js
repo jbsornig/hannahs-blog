@@ -32,7 +32,10 @@ router.get('/', (req, res) => {
 
   const encouragementCount = db.prepare('SELECT COUNT(*) as count FROM encouragements').get().count;
 
-  db.prepare("UPDATE stats SET value = value + 1 WHERE key = 'visitor_count'").run();
+  if (!req.session.counted) {
+    db.prepare("UPDATE stats SET value = value + 1 WHERE key = 'visitor_count'").run();
+    req.session.counted = true;
+  }
   const visitorCount = db.prepare("SELECT value FROM stats WHERE key = 'visitor_count'").get();
 
   res.render('home', { posts, stats, settings, recentPrayers, encouragementCount, visitorCount: visitorCount ? visitorCount.value : 0, page: 'home', subscribe: req.query.subscribe || null });
