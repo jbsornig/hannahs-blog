@@ -32,9 +32,9 @@ router.get('/', (req, res) => {
 
   const encouragementCount = db.prepare('SELECT COUNT(*) as count FROM encouragements').get().count;
 
-  if (!req.session.counted) {
+  if (!req.cookies.visited) {
     db.prepare("UPDATE stats SET value = value + 1 WHERE key = 'visitor_count'").run();
-    req.session.counted = true;
+    res.cookie('visited', '1', { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'lax' });
   }
   const visitorCount = db.prepare("SELECT value FROM stats WHERE key = 'visitor_count'").get();
 
