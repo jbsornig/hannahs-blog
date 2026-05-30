@@ -291,6 +291,14 @@ router.get('/comments', requireAuth, (req, res) => {
   res.render('admin/comments', { comments, page: 'admin' });
 });
 
+router.post('/comments/:id/edit', requireAuth, (req, res) => {
+  const content = (req.body.content || '').trim();
+  if (content) {
+    db.prepare('UPDATE comments SET content = ? WHERE id = ?').run(content, req.params.id);
+  }
+  res.redirect('/admin/comments');
+});
+
 router.post('/comments/:id/approve', requireAuth, (req, res) => {
   db.prepare('UPDATE comments SET approved = 1 WHERE id = ?').run(req.params.id);
   res.redirect('/admin/comments');

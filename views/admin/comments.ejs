@@ -20,21 +20,17 @@
               <span class="badge badge-pending">Pending</span>
             <% } %>
           </div>
-          <p><%= comment.content %></p>
-          <div class="comment-admin-actions">
-            <% if (!comment.approved) { %>
-              <form action="/admin/comments/<%= comment.id %>/approve" method="POST" style="display:inline">
-                <button type="submit" class="btn btn-sm">Approve</button>
-              </form>
-            <% } %>
-            <form action="/admin/comments/<%= comment.id %>/love" method="POST" style="display:inline">
-              <button type="submit" class="btn btn-sm <%= comment.loved ? 'btn-loved' : '' %>"><%- comment.loved ? '&#9829; Loved' : '&#9825; Love' %></button>
-            </form>
-            <form action="/admin/comments/<%= comment.id %>/delete" method="POST" style="display:inline"
-              onsubmit="return confirm('Delete this comment?')">
-              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-            </form>
-          </div>
+          <form action="/admin/comments/<%= comment.id %>/edit" method="POST" class="comment-edit-form">
+            <textarea name="content" rows="2"><%= comment.content %></textarea>
+            <div class="comment-admin-actions">
+              <button type="submit" class="btn btn-sm">Save</button>
+              <% if (!comment.approved) { %>
+                <button type="submit" formaction="/admin/comments/<%= comment.id %>/approve" class="btn btn-sm">Approve</button>
+              <% } %>
+              <button type="submit" formaction="/admin/comments/<%= comment.id %>/love" class="btn btn-sm <%= comment.loved ? 'btn-loved' : '' %>"><%- comment.loved ? '&#9829; Loved' : '&#9825; Love' %></button>
+              <button type="submit" formaction="/admin/comments/<%= comment.id %>/delete" class="btn btn-sm btn-danger" onclick="return confirm('Delete this comment?')">Delete</button>
+            </div>
+          </form>
         </div>
       <% }) %>
     </div>
