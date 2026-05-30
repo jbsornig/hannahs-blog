@@ -15,10 +15,10 @@
       <h3><%= postCount %></h3>
       <p>Total Posts</p>
     </div>
-    <div class="admin-stat-card alert-card">
+    <div class="admin-stat-card <%= commentCount > 0 ? 'alert-card' : '' %>">
       <h3><%= commentCount %></h3>
       <p>Pending Comments</p>
-      <% if (commentCount > 0) { %><a href="/admin/comments">Review</a><% } %>
+      <a href="/admin/comments">Manage</a>
     </div>
     <div class="admin-stat-card">
       <h3><%= prayerCount %></h3>
