@@ -87,4 +87,21 @@ async function notifyCommentLoved(comment, postSlug) {
   await sendEmail(comment.author_email, "Hannah loved your comment!", html);
 }
 
-module.exports = { sendConfirmation, notifySubscribers, notifyCommentLoved };
+async function notifyAdminNewComment(authorName, commentContent, postTitle, postSlug) {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!adminEmail) return;
+
+  const postUrl = `${BLOG_URL}/post/${postSlug}`;
+  const html = `
+    <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto;">
+      <h2>New Comment on "${postTitle}"</h2>
+      <p><strong>${authorName}</strong> wrote:</p>
+      <blockquote style="border-left: 3px solid #7c3aed; padding-left: 1rem; color: #555; margin: 1rem 0;">${commentContent}</blockquote>
+      <p><a href="${postUrl}" style="display: inline-block; padding: 10px 24px; background: #2563eb; color: white; text-decoration: none; border-radius: 6px;">View Post</a></p>
+      <p style="color: #78716c; font-size: 0.85rem;">This comment needs approval before it appears publicly.</p>
+    </div>
+  `;
+  await sendEmail(adminEmail, `New comment from ${authorName}`, html);
+}
+
+module.exports = { sendConfirmation, notifySubscribers, notifyCommentLoved, notifyAdminNewComment };

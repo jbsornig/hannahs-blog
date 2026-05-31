@@ -2,7 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const router = express.Router();
 const { db } = require('./db');
-const { sendConfirmation } = require('./email');
+const { sendConfirmation, notifyAdminNewComment } = require('./email');
 
 // Home page
 router.get('/', (req, res) => {
@@ -125,7 +125,7 @@ router.post('/post/:slug/like', (req, res) => {
 
 // Submit comment
 router.post('/post/:slug/comment', (req, res) => {
-  const post = db.prepare('SELECT id FROM posts WHERE slug = ? AND published = 1').get(req.params.slug);
+  const post = db.prepare('SELECT id, title FROM posts WHERE slug = ? AND published = 1').get(req.params.slug);
   if (!post) return res.status(404).json({ error: 'Post not found' });
 
   const { author_name, author_email, content } = req.body;
@@ -136,6 +136,9 @@ router.post('/post/:slug/comment', (req, res) => {
   db.prepare(
     'INSERT INTO comments (post_id, author_name, author_email, content) VALUES (?, ?, ?, ?)'
   ).run(post.id, author_name.trim(), (author_email || '').trim(), content.trim());
+
+  notifyAdminNewComment(author_name.trim(), content.trim(), post.title, req.params.slug)
+    .catch(err => console.error('Admin notification error:', err));
 
   res.redirect(`/post/${req.params.slug}?commented=1`);
 });
