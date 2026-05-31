@@ -2,7 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const router = express.Router();
 const { db } = require('./db');
-const { sendConfirmation, notifyAdminNewComment } = require('./email');
+const { sendConfirmation, notifyAdminNewComment, notifyAdmin } = require('./email');
 
 // Home page
 router.get('/', (req, res) => {
@@ -163,6 +163,9 @@ router.post('/prayers', (req, res) => {
     'INSERT INTO prayer_requests (author_name, content) VALUES (?, ?)'
   ).run(author_name.trim(), content.trim());
 
+  notifyAdmin(`New prayer request from ${author_name.trim()}`, author_name.trim(), content.trim(), 'Prayer Request')
+    .catch(err => console.error('Admin notification error:', err));
+
   res.redirect('/prayers?submitted=1');
 });
 
@@ -235,6 +238,10 @@ router.post('/encouragement', (req, res) => {
     return res.redirect('/encouragement');
   }
   db.prepare('INSERT INTO encouragements (author_name, content) VALUES (?, ?)').run(author_name.trim(), content.trim());
+
+  notifyAdmin(`New encouragement from ${author_name.trim()}`, author_name.trim(), content.trim(), 'Encouragement Note')
+    .catch(err => console.error('Admin notification error:', err));
+
   res.redirect('/encouragement?submitted=1');
 });
 

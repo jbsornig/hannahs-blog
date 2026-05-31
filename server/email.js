@@ -104,4 +104,19 @@ async function notifyAdminNewComment(authorName, commentContent, postTitle, post
   await sendEmail(adminEmail, `New comment from ${authorName}`, html);
 }
 
-module.exports = { sendConfirmation, notifySubscribers, notifyCommentLoved, notifyAdminNewComment };
+async function notifyAdmin(subject, authorName, content, type) {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!adminEmail) return;
+
+  const html = `
+    <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto;">
+      <h2>New ${type}</h2>
+      <p><strong>${authorName}</strong> wrote:</p>
+      <blockquote style="border-left: 3px solid #7c3aed; padding-left: 1rem; color: #555; margin: 1rem 0;">${content}</blockquote>
+      <p><a href="${BLOG_URL}/admin" style="display: inline-block; padding: 10px 24px; background: #2563eb; color: white; text-decoration: none; border-radius: 6px;">Open Admin</a></p>
+    </div>
+  `;
+  await sendEmail(adminEmail, subject, html);
+}
+
+module.exports = { sendConfirmation, notifySubscribers, notifyCommentLoved, notifyAdminNewComment, notifyAdmin };
