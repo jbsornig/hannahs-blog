@@ -69,8 +69,8 @@
       <h3>Videos</h3>
       <% videos.forEach(vid => { %>
         <div class="video-item">
-          <video controls preload="metadata" playsinline>
-            <source src="/uploads/<%= vid.filename %>" type="video/mp4">
+          <video controls preload="auto" playsinline>
+            <source src="/uploads/<%= vid.filename %>#t=0.001" type="video/mp4">
             Your browser does not support video playback.
           </video>
           <% if (vid.caption) { %>

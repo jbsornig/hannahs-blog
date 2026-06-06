@@ -36,7 +36,7 @@
       <div class="image-preview-grid">
         <% videos.forEach(vid => { %>
           <div class="image-preview">
-            <video src="/uploads/<%= vid.filename %>" style="height:80px; width:100%; object-fit:cover;"></video>
+            <video src="/uploads/<%= vid.filename %>#t=0.001" preload="auto" playsinline style="height:80px; width:100%; object-fit:cover;"></video>
             <form action="/admin/videos/<%= vid.id %>/delete" method="POST">
               <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Remove this video?')">Remove</button>
             </form>
