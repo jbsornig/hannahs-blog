@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const sharp = require('sharp');
+sharp.cache(false);
+sharp.concurrency(1);
 const path = require('path');
 const fs = require('fs');
 const { db, UPLOADS_DIR } = require('./db');
