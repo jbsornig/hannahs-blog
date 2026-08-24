@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hannah&#39;s Blog - Guatemala Mission</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand">Hannah&#39;s Blog</a>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="index.html" class="">Home</a>
+        <a href="posts.html" class="">Posts</a>
+        <a href="prayers.html" class="active">Prayer Requests</a>
+        <a href="encouragement.html" class="">Encouragement</a>
+        <a href="about.html" class="">About</a>
+        
+      </div>
+    </div>
+  </nav>
+  <main class="container">
+
+
+<section class="section">
+  <h1>Prayer Requests</h1>
+  <p class="section-intro">Share your prayer requests or pray for others involved in this mission.</p>
+
+  <form class="prayer-form" action="/prayers" method="POST" onsubmit="alert('This is an archived, read-only copy of the blog. Forms are disabled.');return false;">
+    <h3>Submit a Prayer Request</h3>
+    <div class="form-group">
+      <label for="author_name">Your Name *</label>
+      <input type="text" id="author_name" name="author_name" required>
+    </div>
+    <div class="form-group">
+      <label for="content">Prayer Request *</label>
+      <textarea id="content" name="content" rows="4" required placeholder="Share what's on your heart..."></textarea>
+    </div>
+    <button type="submit" class="btn">Submit Prayer Request</button>
+  </form>
+
+  
+    <div class="prayer-list">
+      
+        <div class="prayer-card ">
+          
+          <p class="prayer-content">"I pray that your safe every day. I pray that the people you are there helping know that God loves them. I pray that this experience is something that you will take with you all the days of your life. I also thank God for you each day."</p>
+          <div class="prayer-footer">
+            <span class="prayer-author">- Dad Sornig</span>
+            <time>Jun 5</time>
+          </div>
+          
+        </div>
+      
+    </div>
+  
+</section>
+
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>Hannah&#39;s Guatemala Mission Blog &copy; 2026</p>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

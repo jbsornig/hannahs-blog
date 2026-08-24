@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hannah&#39;s Blog - Guatemala Mission</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand">Hannah&#39;s Blog</a>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="posts.html" class="">Posts</a>
+        <a href="prayers.html" class="">Prayer Requests</a>
+        <a href="encouragement.html" class="">Encouragement</a>
+        <a href="about.html" class="">About</a>
+        
+      </div>
+    </div>
+  </nav>
+  <main class="container">
+
+
+<section class="hero" style="background: #fff4bd">
+  <h1>Walking by Faith in Guatemala</h1>
+  <p class="hero-subtitle">Follow along for updates on Hannah&#39;s trip. Building homes and drawing near to God.</p>
+</section>
+
+<div class="location-bar">
+  <span class="location-item" id="gt-time"></span>
+  <span class="location-item" id="gt-weather"></span>
+  <span class="location-item">1024 visits</span>
+</div>
+
+<section class="stats-bar">
+  
+    <div class="stat-item">
+      <span class="stat-number" id="days-gone"></span>
+      <span class="stat-label">Days in Guatemala</span>
+    </div>
+  
+  <div class="stat-item">
+    <span class="stat-number">10</span>
+    <span class="stat-label">Homes Built</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">8</span>
+    <span class="stat-label">Groups Hosted</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">10</span>
+    <span class="stat-label">Families Served</span>
+  </div>
+  
+    <div class="stat-item">
+      <span class="stat-number" id="days-left"></span>
+      <span class="stat-label" id="days-left-label">Days Until Home</span>
+    </div>
+  
+</section>
+
+
+<script>
+  (function() {
+    const now = new Date();
+    now.setHours(0,0,0,0);
+
+    
+    const start = new Date('2026-05-09');
+    start.setHours(0,0,0,0);
+    const gone = Math.max(0, Math.ceil((now - start) / 86400000));
+    const el = document.getElementById('days-gone');
+    if (el) el.textContent = gone;
+    
+
+    
+    const end = new Date('2026-08-03');
+    end.setHours(0,0,0,0);
+    const left = Math.ceil((end - now) / 86400000);
+    const leftEl = document.getElementById('days-left');
+    const labelEl = document.getElementById('days-left-label');
+    if (leftEl) {
+      if (left > 0) {
+        leftEl.textContent = left;
+      } else {
+        leftEl.textContent = '0';
+        if (labelEl) labelEl.textContent = "She's Home!";
+      }
+    }
+    
+  })();
+</script>
+
+
+<section class="section encouragement-cta">
+  <a href="encouragement.html" class="encouragement-link">
+    <span class="encouragement-icon">&#9993;</span>
+    <span><strong>Leave an Encouragement Note</strong> — 14 messages and counting!</span>
+  </a>
+</section>
+
+<section class="section">
+  <h2>Latest Updates</h2>
+  
+  <div class="post-grid">
+    
+      <article class="post-card" onclick="window.location='/post/week-12-update-wow'">
+        
+          <div class="post-card-image">
+            <img src="uploads/1785515753943-9i8ufb.jpg" alt="Week 12 Update - WOW" loading="lazy">
+          </div>
+        
+        <div class="post-card-body">
+          <span class="post-category category-update">update</span>
+          
+          <h3><a href="post/week-12-update-wow.html">Week 12 Update - WOW</a></h3>
+          <p class="post-excerpt">Alright guys, I can&#39;t believe this is the last post about my last build of the summer here. What an amazing week! The team I had this week was so incr...</p>
+          <div class="post-meta">
+            <time>July 31, 2026</time>
+            
+              <span>&#9829; 10</span>
+            
+            
+              <span>4 comments</span>
+            
+            
+          </div>
+        </div>
+      </article>
+    
+      <article class="post-card" onclick="window.location='/post/week-11-update'">
+        
+          <div class="post-card-image">
+            <img src="uploads/1785037364089-i1jhzc.jpg" alt="Week 11 Update" loading="lazy">
+          </div>
+        
+        <div class="post-card-body">
+          <span class="post-category category-update">update</span>
+          
+          <h3><a href="post/week-11-update.html">Week 11 Update</a></h3>
+          <p class="post-excerpt">Hey guys! House number 9 is finished! One more house built and one more family impacted this week! We picked the team up on Saturday afternoon, this g...</p>
+          <div class="post-meta">
+            <time>July 25, 2026</time>
+            
+              <span>&#9829; 8</span>
+            
+            
+              <span>2 comments</span>
+            
+            
+          </div>
+        </div>
+      </article>
+    
+      <article class="post-card" onclick="window.location='/post/week-10-update'">
+        
+          <div class="post-card-image">
+            <img src="uploads/1784346705819-28f64g.jpg" alt="Week 10 Update" loading="lazy">
+          </div>
+        
+        <div class="post-card-body">
+          <span class="post-category category-update">update</span>
+          
+          <h3><a href="post/week-10-update.html">Week 10 Update</a></h3>
+          <p class="post-excerpt">Hey guys! Another week has flown by and wow the group this week was so awesome! We built two homes with this team from El Paso, Texas - Hope City Chur...</p>
+          <div class="post-meta">
+            <time>July 17, 2026</time>
+            
+              <span>&#9829; 8</span>
+            
+            
+              <span>4 comments</span>
+            
+            
+          </div>
+        </div>
+      </article>
+    
+      <article class="post-card" onclick="window.location='/post/week-9-update'">
+        
+          <div class="post-card-image">
+            <img src="uploads/1783877816537-bea3t0.jpg" alt="Week 9 Update" loading="lazy">
+          </div>
+        
+        <div class="post-card-body">
+          <span class="post-category category-update">update</span>
+          
+          <h3><a href="post/week-9-update.html">Week 9 Update</a></h3>
+          <p class="post-excerpt">Hey guys! Well this past week has been pretty fun! Saturday night we set off fireworks &amp; sparklers and celebrated the Fourth of July with hotdogs and ...</p>
+          <div class="post-meta">
+            <time>July 12, 2026</time>
+            
+              <span>&#9829; 5</span>
+            
+            
+              <span>5 comments</span>
+            
+            
+          </div>
+        </div>
+      </article>
+    
+      <article class="post-card" onclick="window.location='/post/week-8-progress'">
+        
+          <div class="post-card-image">
+            <img src="uploads/1783200196498-xj692h.jpg" alt="Week 8 Update" loading="lazy">
+          </div>
+        
+        <div class="post-card-body">
+          <span class="post-category category-update">update</span>
+          
+          <h3><a href="post/week-8-progress.html">Week 8 Update</a></h3>
+          <p class="post-excerpt">Happy 4th of July!! What a week! The group this week was from Mount Pulaski, Illinois and they were so great! Kelsey and I were able to go on a walk w...</p>
+          <div class="post-meta">
+            <time>July 4, 2026</time>
+            
+              <span>&#9829; 9</span>
+            
+            
+              <span>3 comments</span>
+            
+            
+          </div>
+        </div>
+      </article>
+    
+  </div>
+</section>
+
+
+<section class="section">
+  <h2>Recent Prayer Requests</h2>
+  <div class="prayer-list">
+    
+      <div class="prayer-card">
+        <p>"I pray that your safe every day. I pray that the people you are there helping know that God loves them. I pray that this experience is something that you will take with you all the days of your life. I also thank God for you each day."</p>
+        <span class="prayer-author">- Dad Sornig</span>
+      </div>
+    
+  </div>
+  <a href="prayers.html" class="btn btn-outline">View All Prayer Requests</a>
+</section>
+
+
+<section class="section subscribe-section" id="subscribe">
+  <h2>Stay Updated</h2>
+  
+    <p class="section-intro">Get an email whenever Hannah posts a new update.</p>
+  
+  
+  <form class="subscribe-form" action="/subscribe" method="POST" onsubmit="alert('This is an archived, read-only copy of the blog. Forms are disabled.');return false;">
+    <div class="form-row">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Your Name" required>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Your Email" required>
+      </div>
+      <button type="submit" class="btn">Subscribe</button>
+    </div>
+  </form>
+  <p class="form-note">You'll receive a confirmation email you need to click before getting updates. Unsubscribe anytime.</p>
+  
+</section>
+
+<script>
+(function() {
+  function updateClock() {
+    var now = new Date();
+    var opts = { timeZone: 'America/Guatemala', hour: 'numeric', minute: '2-digit', weekday: 'short', month: 'short', day: 'numeric' };
+    var el = document.getElementById('gt-time');
+    if (el) el.textContent = 'San Raymundo: ' + now.toLocaleString('en-US', opts);
+  }
+  updateClock();
+  setInterval(updateClock, 60000);
+
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=14.7653&longitude=-90.5956&current=temperature_2m,weather_code&temperature_unit=fahrenheit')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var temp = Math.round(data.current.temperature_2m);
+      var code = data.current.weather_code;
+      var desc = code === 0 ? 'Clear' : code <= 3 ? 'Partly Cloudy' : code <= 48 ? 'Cloudy' : code <= 67 ? 'Rain' : code <= 77 ? 'Snow' : 'Storms';
+      var el = document.getElementById('gt-weather');
+      if (el) el.textContent = temp + '°F ' + desc;
+    })
+    .catch(function() {});
+})();
+</script>
+
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>Hannah&#39;s Guatemala Mission Blog &copy; 2026</p>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
+

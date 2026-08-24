@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hannah&#39;s Blog - Guatemala Mission</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="nav-brand">Hannah&#39;s Blog</a>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="../index.html" class="">Home</a>
+        <a href="../posts.html" class="active">Posts</a>
+        <a href="../prayers.html" class="">Prayer Requests</a>
+        <a href="../encouragement.html" class="">Encouragement</a>
+        <a href="../about.html" class="">About</a>
+        
+      </div>
+    </div>
+  </nav>
+  <main class="container">
+
+
+<article class="post-full">
+  <header class="post-header">
+    <span class="post-category category-update">update</span>
+    <h1>Made it to San Raymundo</h1>
+    <div class="post-meta">
+      <span>By Hannah</span>
+      <time>Sunday, May 10, 2026</time>
+      
+    </div>
+    <button class="share-btn" onclick="sharePost()">Share</button>
+  </header>
+
+  
+    <div class="post-featured-image">
+      <img src="../uploads/1778443141168-aptpz9.jpg" alt="Made it to San Raymundo">
+    </div>
+  
+
+  <div class="post-content">
+    Sorry for the delayed update! Yesterday, I landed in Guatemala City and was picked up by Wilmer with two other interns, Kelsey and Nick, and brought to San Raymundo where I will be staying for the summer. This morning we went to a local church called &#39;Aposento Alto&#39; which means &#39;Upper Room&#39;. After service, we stopped at a coffee shop and were shown around downtown where we can stop for groceries. I&#39;ve attached some photos from yesterday and today of the area we are in!
+  </div>
+
+  <div class="like-section">
+    
+      <div class="reaction-btns">
+        <button class="react-btn" onclick="showLikeForm('heart')">&#9825;</button>
+        <button class="react-btn" onclick="showLikeForm('thumbsup')">&#128077;</button>
+        <span id="like-count" class="react-count">7</span>
+      </div>
+      <div id="like-form" class="like-form" style="display:none;">
+        <input type="hidden" id="like-reaction" value="">
+        <input type="text" id="like-name" placeholder="Your name (optional)" maxlength="50">
+        <button class="btn btn-sm" onclick="submitLike()">Send</button>
+      </div>
+    
+    
+      <p class="like-names">&#9829; Uncle John, &#9829; Mom Sornig, &#9829; Dad Sornig</p>
+    
+  </div>
+
+  
+    <div class="photo-gallery">
+      <h3>Photos</h3>
+      <div class="gallery-grid">
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778443141168-aptpz9.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778443141312-lrqncc.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778443141416-86icof.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778443141524-hdu6dk.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778443141624-e5k92k.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778443141723-xon6jl.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778443141824-fnyeq8.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778443141920-ukbnue.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778445065225-evv0nq.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778446382847-31siex.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+      </div>
+    </div>
+  
+
+  
+</article>
+
+<section class="comments-section">
+  <h3>6 Comments</h3>
+
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Mom</strong>
+        <time>May 10, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>So glad to see where you are and happy you made it there safely! Will be fun to see how things unfold for you as you meet new people each week.</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Juliana Coblentz</strong>
+        <time>May 10, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Love all the pictures!! So glad you made it safe, love you bunches &amp; excited to see all of your updates during your journey!! ♥️</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Dad</strong>
+        <time>May 10, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Cool pictures. Looking forward to reading about your journey! Love you</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Dad</strong>
+        <time>May 10, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>So cool being able to see where you are and what you will be doing. Glad you there and safe. Love you and looking forward to seeing your journey</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Uncle John</strong>
+        <time>May 11, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Glad you made it your journey has begun. Can’t wait to see what you do.</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Sara Coblentz</strong>
+        <time>May 11, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Hi Hannah,  I’m excited to see and hear about your mission.  You will be a blessing to your group and the families there.  🙏🏻😊</p>
+      
+      
+    </div>
+  
+
+  <form class="comment-form" action="/post/made-it-to-san-raymundo/comment" method="POST" onsubmit="alert('This is an archived, read-only copy of the blog. Forms are disabled.');return false;">
+    <h4>Leave a Comment</h4>
+    <div class="form-group">
+      <label for="author_name">Your Name *</label>
+      <input type="text" id="author_name" name="author_name" required>
+    </div>
+    <div class="form-group">
+      <label for="author_email">Email (optional, not displayed)</label>
+      <input type="email" id="author_email" name="author_email">
+    </div>
+    <div class="form-group">
+      <label for="content">Comment *</label>
+      <textarea id="content" name="content" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn">Post Comment</button>
+    <p class="form-note">Comments are moderated and will appear after approval.</p>
+  </form>
+</section>
+
+<!-- Lightbox with navigation -->
+<div id="lightbox" class="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-prev" onclick="prevImage()">&lsaquo;</button>
+  <img id="lightbox-img" src="" alt="" onclick="nextImage()">
+  <button class="lightbox-next" onclick="nextImage()">&rsaquo;</button>
+  <span class="lightbox-counter" id="lightbox-counter"></span>
+</div>
+
+<script>
+function sharePost() {
+  var url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'Made it to San Raymundo', url: url });
+  } else {
+    navigator.clipboard.writeText(url).then(function() {
+      var btn = document.querySelector('.share-btn');
+      btn.textContent = 'Link Copied!';
+      setTimeout(function() { btn.textContent = 'Share'; }, 2000);
+    });
+  }
+}
+function showLikeForm(reaction) {
+  document.getElementById('like-reaction').value = reaction;
+  document.getElementById('like-form').style.display = 'flex';
+  document.getElementById('like-name').focus();
+}
+function submitLike() {
+  const name = document.getElementById('like-name').value.trim();
+  const reaction = document.getElementById('like-reaction').value;
+  fetch('/post/made-it-to-san-raymundo/like', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name, reaction: reaction })
+  })
+    .then(r => r.json())
+    .then(data => {
+      var btns = document.querySelector('.reaction-btns');
+      btns.innerHTML = '<button class="react-btn reacted" disabled>' +
+        (reaction === 'heart' ? '♥' : '👍') +
+        '</button><span class="react-count">' + (data.count > 0 ? data.count : '') + '</span>';
+      document.getElementById('like-form').style.display = 'none';
+      if (data.names && data.names.length > 0) {
+        var el = document.querySelector('.like-names');
+        if (!el) {
+          el = document.createElement('p');
+          el.className = 'like-names';
+          document.querySelector('.like-section').appendChild(el);
+        }
+        el.innerHTML = data.names.join(', ');
+      }
+    });
+}
+document.getElementById('like-name')?.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); submitLike(); }
+});
+</script>
+
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>Hannah&#39;s Guatemala Mission Blog &copy; 2026</p>
+    </div>
+  </footer>
+  <script src="../js/main.js"></script>
+</body>
+</html>
+

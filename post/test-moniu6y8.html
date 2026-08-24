@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hannah&#39;s Blog - Guatemala Mission</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="nav-brand">Hannah&#39;s Blog</a>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="../index.html" class="">Home</a>
+        <a href="../posts.html" class="active">Posts</a>
+        <a href="../prayers.html" class="">Prayer Requests</a>
+        <a href="../encouragement.html" class="">Encouragement</a>
+        <a href="../about.html" class="">About</a>
+        
+      </div>
+    </div>
+  </nav>
+  <main class="container">
+
+
+<article class="post-full">
+  <header class="post-header">
+    <span class="post-category category-update">update</span>
+    <h1>test</h1>
+    <div class="post-meta">
+      <span>By Hannah</span>
+      <time>Friday, May 1, 2026</time>
+      
+    </div>
+    <button class="share-btn" onclick="sharePost()">Share</button>
+  </header>
+
+  
+    <div class="post-featured-image">
+      <img src="../uploads/1777676750000-c7j85z.webp" alt="test">
+    </div>
+  
+
+  <div class="post-content">
+    testing to see how easy it is to post photos from my phone - love you guys 
+  </div>
+
+  <div class="like-section">
+    
+      <div class="reaction-btns">
+        <button class="react-btn" onclick="showLikeForm('heart')">&#9825;</button>
+        <button class="react-btn" onclick="showLikeForm('thumbsup')">&#128077;</button>
+        <span id="like-count" class="react-count"></span>
+      </div>
+      <div id="like-form" class="like-form" style="display:none;">
+        <input type="hidden" id="like-reaction" value="">
+        <input type="text" id="like-name" placeholder="Your name (optional)" maxlength="50">
+        <button class="btn btn-sm" onclick="submitLike()">Send</button>
+      </div>
+    
+    
+  </div>
+
+  
+    <div class="photo-gallery">
+      <h3>Photos</h3>
+      <div class="gallery-grid">
+        
+          <div class="gallery-item">
+            <img src="../uploads/1777676750000-c7j85z.webp" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+      </div>
+    </div>
+  
+
+  
+</article>
+
+<section class="comments-section">
+  <h3>6 Comments</h3>
+
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Dad</strong>
+        <time>May 1, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Yep worked like a champ</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Cassie</strong>
+        <time>May 1, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Cute pic! 🥰💕</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Mom</strong>
+        <time>May 1, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Awww cute girlies 💕</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Dan</strong>
+        <time>May 1, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Cuties</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Mary Kay Yonker</strong>
+        <time>May 9, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Thanks for doing this important work!  Lots of love and prayers headed your way!  🙏🏻♥️</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Brenda &amp;larry</strong>
+        <time>May 10, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>We are so happy you are in your  home for the summer. Have a wonderful adventure. Love you</p>
+      
+      
+    </div>
+  
+
+  <form class="comment-form" action="/post/test-moniu6y8/comment" method="POST" onsubmit="alert('This is an archived, read-only copy of the blog. Forms are disabled.');return false;">
+    <h4>Leave a Comment</h4>
+    <div class="form-group">
+      <label for="author_name">Your Name *</label>
+      <input type="text" id="author_name" name="author_name" required>
+    </div>
+    <div class="form-group">
+      <label for="author_email">Email (optional, not displayed)</label>
+      <input type="email" id="author_email" name="author_email">
+    </div>
+    <div class="form-group">
+      <label for="content">Comment *</label>
+      <textarea id="content" name="content" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn">Post Comment</button>
+    <p class="form-note">Comments are moderated and will appear after approval.</p>
+  </form>
+</section>
+
+<!-- Lightbox with navigation -->
+<div id="lightbox" class="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-prev" onclick="prevImage()">&lsaquo;</button>
+  <img id="lightbox-img" src="" alt="" onclick="nextImage()">
+  <button class="lightbox-next" onclick="nextImage()">&rsaquo;</button>
+  <span class="lightbox-counter" id="lightbox-counter"></span>
+</div>
+
+<script>
+function sharePost() {
+  var url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'test', url: url });
+  } else {
+    navigator.clipboard.writeText(url).then(function() {
+      var btn = document.querySelector('.share-btn');
+      btn.textContent = 'Link Copied!';
+      setTimeout(function() { btn.textContent = 'Share'; }, 2000);
+    });
+  }
+}
+function showLikeForm(reaction) {
+  document.getElementById('like-reaction').value = reaction;
+  document.getElementById('like-form').style.display = 'flex';
+  document.getElementById('like-name').focus();
+}
+function submitLike() {
+  const name = document.getElementById('like-name').value.trim();
+  const reaction = document.getElementById('like-reaction').value;
+  fetch('/post/test-moniu6y8/like', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name, reaction: reaction })
+  })
+    .then(r => r.json())
+    .then(data => {
+      var btns = document.querySelector('.reaction-btns');
+      btns.innerHTML = '<button class="react-btn reacted" disabled>' +
+        (reaction === 'heart' ? '♥' : '👍') +
+        '</button><span class="react-count">' + (data.count > 0 ? data.count : '') + '</span>';
+      document.getElementById('like-form').style.display = 'none';
+      if (data.names && data.names.length > 0) {
+        var el = document.querySelector('.like-names');
+        if (!el) {
+          el = document.createElement('p');
+          el.className = 'like-names';
+          document.querySelector('.like-section').appendChild(el);
+        }
+        el.innerHTML = data.names.join(', ');
+      }
+    });
+}
+document.getElementById('like-name')?.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); submitLike(); }
+});
+</script>
+
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>Hannah&#39;s Guatemala Mission Blog &copy; 2026</p>
+    </div>
+  </footer>
+  <script src="../js/main.js"></script>
+</body>
+</html>
+

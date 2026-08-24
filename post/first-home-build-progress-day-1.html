@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hannah&#39;s Blog - Guatemala Mission</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="nav-brand">Hannah&#39;s Blog</a>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+      <div class="nav-links">
+        <a href="../index.html" class="">Home</a>
+        <a href="../posts.html" class="active">Posts</a>
+        <a href="../prayers.html" class="">Prayer Requests</a>
+        <a href="../encouragement.html" class="">Encouragement</a>
+        <a href="../about.html" class="">About</a>
+        
+      </div>
+    </div>
+  </nav>
+  <main class="container">
+
+
+<article class="post-full">
+  <header class="post-header">
+    <span class="post-category category-update">update</span>
+    <h1>First Home Build Progress - Day 1</h1>
+    <div class="post-meta">
+      <span>By Hannah</span>
+      <time>Wednesday, May 13, 2026</time>
+      
+    </div>
+    <button class="share-btn" onclick="sharePost()">Share</button>
+  </header>
+
+  
+    <div class="post-featured-image">
+      <img src="../uploads/1778729081731-rcu12s.jpg" alt="First Home Build Progress - Day 1">
+    </div>
+  
+
+  <div class="post-content">
+    Hey guys! So we started building the first home today. The first day of a build here consists of making sure the land is flat and big enough for the home design. Then, we set up the framing boards to prepare for the cement pouring. In Guatemala, there are not cement trucks so they use smaller mixers here to create the cement in smaller batches and pour it. We also put up the 3 posts at the front of the home and this will be where the porch and front door are located. Attached are some photos from today. The picture of the stairs and the truck are showing the path we took to get to the build site. I&#39;ve been told the home design in Guatemala is simpler, but the path to the job site is more difficult. Thanks for following along! 
+  </div>
+
+  <div class="like-section">
+    
+      <div class="reaction-btns">
+        <button class="react-btn" onclick="showLikeForm('heart')">&#9825;</button>
+        <button class="react-btn" onclick="showLikeForm('thumbsup')">&#128077;</button>
+        <span id="like-count" class="react-count">14</span>
+      </div>
+      <div id="like-form" class="like-form" style="display:none;">
+        <input type="hidden" id="like-reaction" value="">
+        <input type="text" id="like-name" placeholder="Your name (optional)" maxlength="50">
+        <button class="btn btn-sm" onclick="submitLike()">Send</button>
+      </div>
+    
+    
+      <p class="like-names">&#9829; Sara Coblentz, &#128077; Carol S, &#9829; Robin, &#9829; Alli, &#9829; Sheri, &#9829; Ashley, &#9829; Janell, &#9829; Maddy Tuttle, &#128077; 👍, &#9829; Olivia, &#9829; Mama Betsy, &#9829; Juliana Coblentz, &#9829; Dad</p>
+    
+  </div>
+
+  
+    <div class="photo-gallery">
+      <h3>Photos</h3>
+      <div class="gallery-grid">
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778729081731-rcu12s.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778729081833-x4lfg3.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778729081946-wh8svo.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778729082118-ei1kyw.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778729082224-suzqdu.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778729082330-s3k9ps.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778729082446-w2w0ir.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+          <div class="gallery-item">
+            <img src="../uploads/1778729082617-5q26m3.jpg" alt="" loading="lazy" onclick="openLightbox(this.src)">
+            
+          </div>
+        
+      </div>
+    </div>
+  
+
+  
+</article>
+
+<section class="comments-section">
+  <h3>3 Comments</h3>
+
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Dad Sornig</strong>
+        <time>May 13, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Wow that looks like a lot of work. Good job Hannah</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>John</strong>
+        <time>May 14, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>Nice job</p>
+      
+      
+    </div>
+  
+    <div class="comment comment-loved">
+      <div class="comment-header">
+        <strong>Steve Boren</strong>
+        <time>May 14, 2026</time>
+        
+          <span class="loved-badge">&#9829; by Hannah</span>
+        
+      </div>
+      <p>We see you Hannah! Great Job! Great Mission! Keep up the good work!</p>
+      
+      
+    </div>
+  
+
+  <form class="comment-form" action="/post/first-home-build-progress-day-1/comment" method="POST" onsubmit="alert('This is an archived, read-only copy of the blog. Forms are disabled.');return false;">
+    <h4>Leave a Comment</h4>
+    <div class="form-group">
+      <label for="author_name">Your Name *</label>
+      <input type="text" id="author_name" name="author_name" required>
+    </div>
+    <div class="form-group">
+      <label for="author_email">Email (optional, not displayed)</label>
+      <input type="email" id="author_email" name="author_email">
+    </div>
+    <div class="form-group">
+      <label for="content">Comment *</label>
+      <textarea id="content" name="content" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn">Post Comment</button>
+    <p class="form-note">Comments are moderated and will appear after approval.</p>
+  </form>
+</section>
+
+<!-- Lightbox with navigation -->
+<div id="lightbox" class="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-prev" onclick="prevImage()">&lsaquo;</button>
+  <img id="lightbox-img" src="" alt="" onclick="nextImage()">
+  <button class="lightbox-next" onclick="nextImage()">&rsaquo;</button>
+  <span class="lightbox-counter" id="lightbox-counter"></span>
+</div>
+
+<script>
+function sharePost() {
+  var url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'First Home Build Progress - Day 1', url: url });
+  } else {
+    navigator.clipboard.writeText(url).then(function() {
+      var btn = document.querySelector('.share-btn');
+      btn.textContent = 'Link Copied!';
+      setTimeout(function() { btn.textContent = 'Share'; }, 2000);
+    });
+  }
+}
+function showLikeForm(reaction) {
+  document.getElementById('like-reaction').value = reaction;
+  document.getElementById('like-form').style.display = 'flex';
+  document.getElementById('like-name').focus();
+}
+function submitLike() {
+  const name = document.getElementById('like-name').value.trim();
+  const reaction = document.getElementById('like-reaction').value;
+  fetch('/post/first-home-build-progress-day-1/like', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name, reaction: reaction })
+  })
+    .then(r => r.json())
+    .then(data => {
+      var btns = document.querySelector('.reaction-btns');
+      btns.innerHTML = '<button class="react-btn reacted" disabled>' +
+        (reaction === 'heart' ? '♥' : '👍') +
+        '</button><span class="react-count">' + (data.count > 0 ? data.count : '') + '</span>';
+      document.getElementById('like-form').style.display = 'none';
+      if (data.names && data.names.length > 0) {
+        var el = document.querySelector('.like-names');
+        if (!el) {
+          el = document.createElement('p');
+          el.className = 'like-names';
+          document.querySelector('.like-section').appendChild(el);
+        }
+        el.innerHTML = data.names.join(', ');
+      }
+    });
+}
+document.getElementById('like-name')?.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); submitLike(); }
+});
+</script>
+
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>Hannah&#39;s Guatemala Mission Blog &copy; 2026</p>
+    </div>
+  </footer>
+  <script src="../js/main.js"></script>
+</body>
+</html>
+
