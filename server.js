@@ -51,6 +51,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/', require('./server/routes-public'));
+app.use('/admin/backup', require('./server/routes-backup'));
 app.use('/admin', require('./server/routes-admin'));
 
 // 404
